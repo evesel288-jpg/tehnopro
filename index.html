@@ -298,14 +298,23 @@ window.addEventListener('load',async()=>{
 async function loadUsers(){
   try{
     const{data,error}=await sb.from('users').select('*').order('name');
-    if(!error&&data)users=data;
-  }catch{}
+    if(error)throw error;
+    if(data)users=data;
+  }catch(e){
+    console.error('loadUsers error:',e);
+  }
 }
 
 function populateLoginSelect(){
   const sel=document.getElementById('login-name');
-  sel.innerHTML='<option value="">— Выберите сотрудника —</option>'+
-    users.map(u=>`<option value="${esc(u.name)}">${esc(u.name)}</option>`).join('');
+  const err=document.getElementById('login-err');
+  if(users.length===0){
+    sel.innerHTML='<option value="">— Нет пользователей —</option>';
+    err.textContent='Не удалось загрузить список сотрудников. Проверьте таблицу users в Supabase.';
+  }else{
+    sel.innerHTML='<option value="">— Выберите сотрудника —</option>'+
+      users.map(u=>`<option value="${esc(u.name)}">${esc(u.name)}</option>`).join('');
+  }
 }
 
 async function doLogin(){
