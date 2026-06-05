@@ -351,7 +351,8 @@ async function insertT(row){
 }
 async function updateT(id,row){
   const{error}=await sb.from('tenders').update(row).eq('id',id);
-  if(!error)tenders=tenders.map(x=>x.id===id?{...x,...row}:x);
+  if(error){alert('Ошибка сохранения: '+error.message);return;}
+  tenders=tenders.map(x=>x.id==id?{...x,...row}:x);
   render();
 }
 async function removeT(id){
