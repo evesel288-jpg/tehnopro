@@ -14,6 +14,7 @@ a{color:inherit;text-decoration:none}
 .btn-primary{background:#1e3a8a;color:#fff}.btn-primary:hover{background:#1e40af}
 .btn-secondary{background:#fff;color:#374151;border:1px solid #d1d5db}.btn-secondary:hover{background:#f9fafb}
 .btn-danger{background:#dc2626;color:#fff}.btn-danger:hover{background:#b91c1c}
+.btn-green{background:#15803d;color:#fff}.btn-green:hover{background:#166534}
 .btn-sm{padding:5px 10px;font-size:11px}
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500;white-space:nowrap}
 .inp{width:100%;border:1px solid #d1d5db;border-radius:6px;padding:7px 9px;font-size:13px;outline:none;font-family:inherit}
@@ -21,12 +22,13 @@ a{color:inherit;text-decoration:none}
 select.inp{background:#fff;cursor:pointer}
 textarea.inp{resize:none}
 
-/* Name screen */
-#name-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:#f9fafb}
-.name-card{background:#fff;border-radius:16px;padding:32px;max-width:360px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center}
-.name-card .icon{font-size:42px;margin-bottom:12px}
-.name-card h1{font-size:18px;font-weight:700;color:#111827;margin-bottom:6px}
-.name-card p{color:#6b7280;font-size:13px;margin-bottom:24px;line-height:1.5}
+/* Login */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:#f0f4ff}
+.login-card{background:#fff;border-radius:16px;padding:32px;max-width:380px;width:100%;box-shadow:0 4px 32px rgba(30,58,138,.12);text-align:center}
+.login-logo{font-size:40px;margin-bottom:12px}
+.login-card h1{font-size:18px;font-weight:700;color:#111827;margin-bottom:4px}
+.login-card p{color:#6b7280;font-size:12px;margin-bottom:24px}
+.login-error{color:#dc2626;font-size:12px;margin-top:8px;min-height:16px}
 
 /* Header */
 .header{background:#1e3a8a;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
@@ -48,7 +50,7 @@ textarea.inp{resize:none}
 .filter-inp{border:1px solid #d1d5db;border-radius:6px;padding:5px 9px;font-size:12px;flex:1;min-width:120px;outline:none;font-family:inherit}
 .filter-count{margin-left:auto;color:#9ca3af;font-size:11px;white-space:nowrap}
 
-/* Cards (mobile) */
+/* Cards */
 .cards{padding:0 12px 40px;display:flex;flex-direction:column;gap:8px}
 .card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:12px 14px}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
@@ -63,10 +65,14 @@ textarea.inp{resize:none}
 .metric{background:#f9fafb;border-radius:6px;padding:6px 8px}
 .metric-label{color:#9ca3af;font-size:10px}
 .metric-val{font-weight:600;font-size:12px;color:#374151;margin-top:1px}
-.card-footer{color:#9ca3af;font-size:11px;margin-top:6px}
-.card-comment{color:#6b7280;font-size:11px;margin-top:4px;font-style:italic;line-height:1.4}
+.card-footer{font-size:11px;margin-top:6px;display:flex;align-items:center;gap:4px}
+.card-comment{color:#6b7280;font-size:11px;margin-top:4px;font-style:italic}
+.reason-badge{background:#fff3cd;color:#856404;border-radius:6px;padding:4px 8px;font-size:11px;margin-top:6px;line-height:1.4}
 
-/* Table (desktop) */
+/* Deadline dot */
+.ddot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* Table */
 .table-wrap{padding:0 20px 40px;display:none}
 .tbl-scroll{overflow-x:auto;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .tbl{width:100%;border-collapse:collapse;font-size:12px}
@@ -81,7 +87,7 @@ textarea.inp{resize:none}
 .tbl-right{text-align:right;white-space:nowrap;color:#374151}
 .tbl-center{text-align:center}
 
-/* Modal */
+/* Overlay / Modal */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal{background:#fff;border-radius:12px;width:100%;max-width:640px;margin:16px auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #f3f4f6}
@@ -96,56 +102,73 @@ textarea.inp{resize:none}
 .calc-item .calc-label{font-size:10px;color:#9ca3af}
 .calc-item .calc-val{font-weight:700;font-size:15px;color:#374151;margin-top:1px}
 
+/* Admin panel */
+.admin-modal{max-width:520px}
+.user-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6}
+.user-row:last-child{border-bottom:none}
+.user-name{flex:1;font-weight:500}
+.user-role{font-size:11px;padding:2px 8px;border-radius:999px;background:#dbeafe;color:#1e40af}
+.user-role.admin{background:#fce7f3;color:#9d174d}
+.add-user-form{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:end;margin-top:16px;padding-top:16px;border-top:1px solid #f3f4f6}
+
 /* Confirm */
 .confirm-box{background:#fff;border-radius:12px;padding:24px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .confirm-box h3{font-weight:600;font-size:15px;margin-bottom:8px}
 .confirm-box p{color:#6b7280;font-size:13px;margin-bottom:20px}
 .confirm-actions{display:flex;gap:8px;justify-content:flex-end}
-
-/* Empty / loading */
 .empty{text-align:center;padding:60px 20px;color:#9ca3af;font-size:13px}
-.spinner{display:flex;align-items:center;justify-content:center;min-height:100vh;color:#9ca3af;font-size:14px}
 
-/* Colors */
-.c-red{color:#dc2626!important}.c-yellow{color:#d97706!important}.c-green{color:#15803d!important}
-.fw6{font-weight:600}
-.dec-yes{color:#15803d;font-weight:600}
-.dec-no{color:#dc2626}
-
-/* Desktop overrides */
+/* Responsive */
 @media(min-width:768px){
   .stats-grid{grid-template-columns:repeat(6,1fr)}
   .stats-grid2{display:none}
   .cards{display:none}
   .table-wrap{display:block}
-  .filters{padding:0 20px 8px}
-  .header{padding:12px 20px}
+  .filters,.header{padding-left:20px;padding-right:20px}
   .stat-val{font-size:20px}
+  .filters{padding:0 20px 8px}
 }
+.dec-yes{color:#15803d;font-weight:600}
+.dec-no{color:#dc2626}
+.fw6{font-weight:600}
 </style>
 </head>
 <body>
 
-<div id="name-screen">
-  <div class="name-card">
-    <div class="icon">📋</div>
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">📋</div>
     <h1>ТехноПро · Тендерный трекер</h1>
-    <p>Введите ваше имя — система будет отображать, кто добавил каждую запись</p>
-    <input id="name-inp" class="inp" placeholder="Иванов Иван"
-      style="margin-bottom:12px;font-size:14px;padding:10px 12px;text-align:center">
-    <button class="btn btn-primary" style="width:100%;padding:10px;font-size:14px" onclick="submitName()">Войти →</button>
+    <p>Выберите имя и введите пароль</p>
+    <div style="display:flex;flex-direction:column;gap:10px;text-align:left">
+      <div>
+        <div class="field-label" style="margin-bottom:3px">Сотрудник</div>
+        <select id="login-name" class="inp" style="background:#fff">
+          <option value="">— Загрузка... —</option>
+        </select>
+      </div>
+      <div>
+        <div class="field-label" style="margin-bottom:3px">Пароль</div>
+        <input id="login-pass" class="inp" type="password" placeholder="Введите пароль">
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:10px;font-size:14px;margin-top:4px" onclick="doLogin()">Войти →</button>
+      <div class="login-error" id="login-err"></div>
+    </div>
   </div>
 </div>
 
+<!-- App -->
 <div id="app" style="display:none">
   <div class="header">
     <div>
       <div class="header-title">ТехноПро · Тендерный трекер</div>
       <div class="header-sub">👤 <span id="user-label"></span> &nbsp;·&nbsp;
-        <a href="#" onclick="changeName()" style="color:#93c5fd;text-decoration:underline">сменить</a>
+        <a href="#" onclick="doLogout()" style="color:#93c5fd;text-decoration:underline">выйти</a>
       </div>
     </div>
     <div class="header-actions">
+      <button id="admin-btn" class="btn btn-secondary btn-sm" onclick="openAdmin()" style="display:none">⚙ Пользователи</button>
       <button class="btn btn-secondary btn-sm" onclick="exportXlsx()">⬇ Excel</button>
       <button class="btn btn-primary btn-sm" onclick="openAdd()">+ Добавить</button>
     </div>
@@ -157,25 +180,28 @@ textarea.inp{resize:none}
   <div class="table-wrap">
     <div class="tbl-scroll">
       <table class="tbl">
-        <thead>
-          <tr>
-            <th>Номер закупки</th><th>Наименование / Заказчик</th><th>Тип</th>
-            <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-            <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th></th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th>
+          <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th></th>
+        </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- Modal overlay -->
-<div class="overlay" id="modal-overlay" style="display:none">
+<!-- Tender modal -->
+<div class="overlay" id="modal-overlay">
   <div class="modal" id="modal-box"></div>
 </div>
 
-<!-- Delete overlay -->
+<!-- Admin modal -->
+<div class="overlay" id="admin-overlay" style="display:none">
+  <div class="modal admin-modal" id="admin-box"></div>
+</div>
+
+<!-- Delete confirm -->
 <div class="overlay" id="del-overlay" style="display:none;align-items:center">
   <div class="confirm-box">
     <h3>Удалить запись?</h3>
@@ -188,12 +214,10 @@ textarea.inp{resize:none}
 </div>
 
 <script>
-// ════════════════════════════════════════════════════
-//  КОНФИГУРАЦИЯ — вставьте ваши данные из Supabase
-// ════════════════════════════════════════════════════
+// ════════════════════════════════════════
 const SUPABASE_URL = 'https://kudompavgaadsuwdcyzz.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_AdnqI2sd4gS-AWhsbbA2RQ_4kcE1dpC';
-// ════════════════════════════════════════════════════
+// ════════════════════════════════════════
 
 const PLATFORMS = ['ЕИС','Сбербанк-АСТ','РТС-тендер','Росэлторг','ТЭК-Торг','ЕЭТП','B2B-Center','Другая'];
 const TYPES     = ['44-ФЗ','223-ФЗ','Коммерческая'];
@@ -205,7 +229,7 @@ const TYPE_C   = {'44-ФЗ':'#dbeafe|#1e40af','223-ФЗ':'#ede9fe|#6b21a8','Ко
 const STATUS_C = {'Отобрано':'#f3f4f6|#374151','Рассмотрено':'#fef9c3|#854d0e','Принято в работу':'#dcfce7|#166534'};
 const RESULT_C = {'В процессе':'#eff6ff|#1d4ed8','Победа':'#dcfce7|#166534','Поражение':'#fee2e2|#991b1b','Отказ':'#f3f4f6|#6b7280'};
 
-let sb, tenders=[], currentUser='', deleteId=null;
+let sb, tenders=[], users=[], currentUser=null, deleteId=null;
 let filter={q:'',type:'',status:'',result:'',employee:''};
 
 const fmtR = v => v?Number(v).toLocaleString('ru-RU',{maximumFractionDigits:0}):'—';
@@ -220,72 +244,136 @@ function calcT(t){
   const discount  = (price!=null&&nmc!=null&&nmc>0)?(1-price/nmc)*100:null;
   return{margin,marginPct,discount};
 }
-
-function mColor(p){ return p==null?'#6b7280':p<5?'#dc2626':p<15?'#d97706':'#15803d'; }
-
+function mColor(p){return p==null?'#6b7280':p<5?'#dc2626':p<15?'#d97706':'#15803d';}
 function chip(val,map){
   const[bg,fg]=(map[val]||'#f3f4f6|#374151').split('|');
-  return `<span class="badge" style="background:${bg};color:${fg}">${esc(val)}</span>`;
+  return`<span class="badge" style="background:${bg};color:${fg}">${esc(val)}</span>`;
 }
 
-// ── Init ──────────────────────────────────────────
-window.addEventListener('load',()=>{
-  const u=localStorage.getItem('tp_user');
-  if(u){currentUser=u;showApp();}
-  document.getElementById('name-inp').addEventListener('keydown',e=>{if(e.key==='Enter')submitName();});
+// Deadline color
+function deadlineDays(dl){
+  if(!dl)return null;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const d=new Date(dl);
+  return Math.ceil((d-today)/(1000*60*60*24));
+}
+function deadlineColor(dl){
+  const days=deadlineDays(dl);
+  if(days===null)return'#9ca3af';
+  if(days<0)return'#9ca3af';
+  if(days<5)return'#dc2626';
+  if(days<=10)return'#d97706';
+  return'#15803d';
+}
+function deadlineLabel(dl){
+  const days=deadlineDays(dl);
+  if(days===null)return'—';
+  if(days<0)return`${dl} (истёк)`;
+  if(days===0)return`${dl} (сегодня!)`;
+  if(days===1)return`${dl} (1 день)`;
+  return`${dl} (${days} дн.)`;
+}
+
+// ── Init ──────────────────────────────────
+window.addEventListener('load',async()=>{
+  sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  // Check saved session
+  const saved=localStorage.getItem('tp_session');
+  if(saved){
+    try{
+      currentUser=JSON.parse(saved);
+      await loadUsers();
+      const found=users.find(u=>u.name===currentUser.name&&u.password===currentUser.password);
+      if(found){await showApp();return;}
+    }catch{}
+    localStorage.removeItem('tp_session');
+    currentUser=null;
+  }
+  await loadUsers();
+  populateLoginSelect();
+  document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 });
 
-function submitName(){
-  const v=document.getElementById('name-inp').value.trim();
-  if(!v)return;
-  currentUser=v;
-  localStorage.setItem('tp_user',v);
-  showApp();
+async function loadUsers(){
+  try{
+    const{data,error}=await sb.from('users').select('*').order('name');
+    if(!error&&data)users=data;
+  }catch{}
 }
 
-function changeName(){
-  localStorage.removeItem('tp_user');
-  currentUser='';
+function populateLoginSelect(){
+  const sel=document.getElementById('login-name');
+  sel.innerHTML='<option value="">— Выберите сотрудника —</option>'+
+    users.map(u=>`<option value="${esc(u.name)}">${esc(u.name)}</option>`).join('');
+}
+
+async function doLogin(){
+  const name=document.getElementById('login-name').value;
+  const pass=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-err');
+  err.textContent='';
+  if(!name){err.textContent='Выберите сотрудника';return;}
+  if(!pass){err.textContent='Введите пароль';return;}
+  const user=users.find(u=>u.name===name&&u.password===pass);
+  if(!user){err.textContent='Неверный пароль';return;}
+  currentUser=user;
+  localStorage.setItem('tp_session',JSON.stringify({name:user.name,password:user.password,role:user.role}));
+  await showApp();
+}
+
+function doLogout(){
+  localStorage.removeItem('tp_session');
+  currentUser=null;
   document.getElementById('app').style.display='none';
-  document.getElementById('name-screen').style.display='flex';
-  document.getElementById('name-inp').value='';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-err').textContent='';
 }
 
 async function showApp(){
-  document.getElementById('name-screen').style.display='none';
+  document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('user-label').textContent=currentUser;
-  sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-  await load();
-}
-
-// ── CRUD ──────────────────────────────────────────
-async function load(){
-  const{data,error}=await sb.from('tenders').select('*').order('created_at',{ascending:false});
-  if(!error&&data)tenders=data;
+  document.getElementById('user-label').textContent=currentUser.name;
+  if(currentUser.role==='admin')document.getElementById('admin-btn').style.display='';
+  await loadTenders();
   render();
 }
 
-async function insert(row){
+// ── Tenders CRUD ──────────────────────────
+async function loadTenders(){
+  const{data,error}=await sb.from('tenders').select('*').order('created_at',{ascending:false});
+  if(!error&&data)tenders=data;
+}
+async function insertT(row){
   const{data,error}=await sb.from('tenders').insert([row]).select();
   if(!error&&data)tenders=[data[0],...tenders];
   render();
 }
-
-async function update(id,row){
+async function updateT(id,row){
   const{error}=await sb.from('tenders').update(row).eq('id',id);
   if(!error)tenders=tenders.map(x=>x.id===id?{...x,...row}:x);
   render();
 }
-
-async function remove(id){
+async function removeT(id){
   const{error}=await sb.from('tenders').delete().eq('id',id);
   if(!error)tenders=tenders.filter(x=>x.id!==id);
   render();
 }
 
-// ── Filtering & Stats ─────────────────────────────
-function filtered(){
+// ── Users CRUD (admin) ────────────────────
+async function addUser(name,password,role){
+  if(!name||!password)return;
+  const{data,error}=await sb.from('users').insert([{name,password,role}]).select();
+  if(!error&&data){users=[...users,data[0]];renderAdmin();}
+}
+async function removeUser(id){
+  if(users.find(u=>u.id===id)?.name===currentUser.name){alert('Нельзя удалить самого себя');return;}
+  const{error}=await sb.from('users').delete().eq('id',id);
+  if(!error){users=users.filter(u=>u.id!==id);renderAdmin();}
+}
+
+// ── Filtered & Stats ──────────────────────
+function getFiltered(){
   return tenders.filter(t=>{
     if(filter.type     &&t.type!==filter.type)        return false;
     if(filter.status   &&t.status!==filter.status)    return false;
@@ -298,8 +386,7 @@ function filtered(){
     return true;
   });
 }
-
-function stats(){
+function getStats(){
   const byS=Object.fromEntries(STATUSES.map(s=>[s,0]));
   let nmcSum=0,mSum=0,mCnt=0,wins=0;
   tenders.forEach(t=>{
@@ -312,113 +399,108 @@ function stats(){
   return{byS,wins,nmcSum,total:tenders.length,avgM:mCnt?mSum/mCnt:null};
 }
 
-// ── Render ────────────────────────────────────────
+// ── Render ────────────────────────────────
 function render(){
-  const st=stats();
-  const rows=filtered();
+  const st=getStats();
+  const rows=getFiltered();
   const emps=[...new Set(tenders.map(t=>t.employee).filter(Boolean))];
 
-  // Stats top (mobile 4-col / desktop 6-col)
-  const topItems=[
-    {l:'Всего',       v:st.total},
-    {l:'Отобрано',    v:st.byS['Отобрано']},
-    {l:'В работе',    v:st.byS['Принято в работу']},
-    {l:'Победы',      v:st.wins},
-    {l:'Рассмотрено', v:st.byS['Рассмотрено']},
-    {l:'Сумма НМЦ',   v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0',sm:true},
-  ];
-  document.getElementById('stats-top').innerHTML=topItems.map(s=>
-    `<div class="stat-card"><div class="stat-label">${s.l}</div>
-     <div class="stat-val${s.sm?' stat-val-sm':''}">${s.v}</div></div>`
-  ).join('');
+  document.getElementById('stats-top').innerHTML=[
+    {l:'Всего',v:st.total},{l:'Отобрано',v:st.byS['Отобрано']},
+    {l:'В работе',v:st.byS['Принято в работу']},{l:'Победы',v:st.wins},
+    {l:'Рассмотрено',v:st.byS['Рассмотрено']},
+    {l:'Сумма НМЦ',v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0',sm:true},
+  ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
+    <div class="stat-val${s.sm?' stat-val-sm':''}">${s.v}</div></div>`).join('');
 
   document.getElementById('stats-bot').innerHTML=[
-    {l:'Сумма НМЦ',  v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0'},
+    {l:'Сумма НМЦ',v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0'},
     {l:'Средняя маржа',v:st.avgM!=null?fmtP(st.avgM):'—'},
   ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
     <div class="stat-val stat-val-sm">${s.v}</div></div>`).join('');
 
-  // Filters
-  const selS='class="filter-sel"';
-  let fh=`<input class="filter-inp" value="${esc(filter.q)}" placeholder="🔍 Поиск..."
-    oninput="filter.q=this.value;render()">`;
-  fh+=sel('filter.type',  TYPES,   'Все (Тип)',    selS);
-  fh+=sel('filter.status',STATUSES,'Все (Статус)', selS);
-  fh+=sel('filter.result',RESULTS, 'Все (Итог)',   selS);
-  if(emps.length>1) fh+=sel('filter.employee',emps,'Все (Сотрудник)',selS);
+  const ss='border:1px solid #d1d5db;border-radius:6px;padding:5px 7px;font-size:12px;background:#fff;outline:none;cursor:pointer;font-family:inherit';
+  let fh=`<input class="filter-inp" value="${esc(filter.q)}" placeholder="🔍 Поиск..." oninput="filter.q=this.value;render()">`;
+  [[filter.type,TYPES,'Тип'],[filter.status,STATUSES,'Статус'],[filter.result,RESULTS,'Итог']].forEach(([cur,opts,lbl])=>{
+    fh+=`<select style="${ss}" onchange="filter.${lbl==='Тип'?'type':lbl==='Статус'?'status':'result'}=this.value;render()">
+      <option value="">Все (${lbl})</option>${opts.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  });
+  if(emps.length>1){
+    fh+=`<select style="${ss}" onchange="filter.employee=this.value;render()">
+      <option value="">Все (Сотрудник)</option>${emps.map(e=>`<option${filter.employee===e?' selected':''}>${esc(e)}</option>`).join('')}</select>`;
+  }
   if(Object.values(filter).some(Boolean))
-    fh+=`<button onclick="resetFilter()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:12px">✕</button>`;
+    fh+=`<button onclick="filter={q:'',type:'',status:'',result:'',employee:''};render()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:12px">✕</button>`;
   fh+=`<span class="filter-count">${rows.length} из ${tenders.length}</span>`;
   document.getElementById('filters-bar').innerHTML=fh;
 
-  // Empty
   const emptyHtml=tenders.length===0
     ?`<div class="empty">Записей нет. <a href="#" onclick="openAdd()" style="color:#2563eb">Добавить первый тендер →</a></div>`
-    :`<div class="empty">Ничего не найдено по фильтрам.</div>`;
+    :`<div class="empty">Ничего не найдено.</div>`;
 
-  // Cards (mobile)
+  // Cards
   document.getElementById('cards-list').innerHTML=rows.length===0?emptyHtml:rows.map(t=>{
     const{marginPct,discount}=calcT(t);
     const mc=mColor(marginPct);
+    const dc=deadlineColor(t.deadline);
+    const dl=deadlineLabel(t.deadline);
     const numEl=t.url
       ?`<a href="${esc(t.url)}" target="_blank" class="card-num" style="color:#2563eb">${esc(t.number||'—')}</a>`
       :`<span class="card-num" style="color:#6b7280">${esc(t.number||'—')}</span>`;
     const decEl=t.decision&&t.decision!=='—'
       ?`<span style="font-size:11px;font-weight:600;color:${t.decision==='Участвуем'?'#15803d':'#dc2626'}">${esc(t.decision)}</span>`:'';
-    const empEl=t.employee
-      ?`<span class="badge" style="background:#f3f4f6;color:#6b7280">👤 ${esc(t.employee)}</span>`:'';
+    const empEl=t.employee?`<span class="badge" style="background:#f3f4f6;color:#6b7280">👤 ${esc(t.employee)}</span>`:'';
+    const reasonEl=t.decision==='Не участвуем'&&t.reason_no
+      ?`<div class="reason-badge">⚠ Причина: ${esc(t.reason_no)}</div>`:'';
     return`<div class="card">
       <div class="card-top">
-        <div class="card-info">
-          ${numEl}
+        <div class="card-info">${numEl}
           <div class="card-name">${esc(t.name)||'<span style="color:#d1d5db">Без названия</span>'}</div>
           <div class="card-sub">${esc([t.customer,t.platform].filter(Boolean).join(' · '))}</div>
         </div>
         <div class="card-actions">
-          <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})" title="Редактировать">✎</button>
-          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})" title="Удалить">✕</button>
+          <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
+          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </div>
       </div>
-      <div class="card-badges">
-        ${chip(t.type,TYPE_C)}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}
-      </div>
+      <div class="card-badges">${chip(t.type,TYPE_C)}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
       <div class="card-metrics">
         <div class="metric"><div class="metric-label">НМЦ</div><div class="metric-val">${t.nmc?fmtR(t.nmc)+' ₽':'—'}</div></div>
         <div class="metric"><div class="metric-label">Наша цена</div><div class="metric-val">${t.price?fmtR(t.price)+' ₽':'—'}</div></div>
         <div class="metric"><div class="metric-label">Снижение</div><div class="metric-val">${fmtP(discount)}</div></div>
         <div class="metric"><div class="metric-label">Маржа</div><div class="metric-val" style="color:${mc}">${fmtP(marginPct)}</div></div>
       </div>
-      ${t.deadline?`<div class="card-footer">Срок подачи: ${esc(t.deadline)}</div>`:''}
+      ${t.deadline?`<div class="card-footer"><span class="ddot" style="background:${dc}"></span><span style="color:${dc};font-weight:500">${esc(dl)}</span></div>`:''}
+      ${reasonEl}
       ${t.comment?`<div class="card-comment">${esc(t.comment)}</div>`:''}
     </div>`;
   }).join('');
 
-  // Table (desktop)
+  // Table
   document.getElementById('tbl-body').innerHTML=rows.length===0
     ?`<tr><td colspan="13">${emptyHtml}</td></tr>`
     :rows.map(t=>{
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
-      const numEl=t.url
-        ?`<a href="${esc(t.url)}" target="_blank" style="color:#2563eb">${esc(t.number||'—')}</a>`
-        :esc(t.number||'—');
+      const dc=deadlineColor(t.deadline);
+      const numEl=t.url?`<a href="${esc(t.url)}" target="_blank" style="color:#2563eb">${esc(t.number||'—')}</a>`:esc(t.number||'—');
       const decCls=t.decision==='Участвуем'?'dec-yes':t.decision==='Не участвуем'?'dec-no':'';
+      const reasonTip=t.decision==='Не участвуем'&&t.reason_no?` title="${esc(t.reason_no)}"`:''
       return`<tr>
         <td class="tbl-mono">${numEl}</td>
-        <td class="tbl-name-col">
-          <div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
-          <div class="tbl-name-sub">${esc([t.customer,t.platform].filter(Boolean).join(' · '))}</div>
-        </td>
+        <td class="tbl-name-col"><div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
+          <div class="tbl-name-sub">${esc([t.customer,t.platform].filter(Boolean).join(' · '))}</div></td>
         <td>${chip(t.type,TYPE_C)}</td>
         <td class="tbl-right">${fmtR(t.nmc)}</td>
         <td class="tbl-right">${fmtR(t.price)}</td>
         <td class="tbl-center">${fmtP(discount)}</td>
         <td class="tbl-center fw6" style="color:${mc}">${fmtP(marginPct)}</td>
         <td>${chip(t.status,STATUS_C)}</td>
-        <td class="${decCls}">${esc(t.decision||'—')}</td>
+        <td class="${decCls}"${reasonTip}>${esc(t.decision||'—')}${t.decision==='Не участвуем'&&t.reason_no?' ℹ':''}
+        </td>
         <td>${chip(t.result,RESULT_C)}</td>
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
-        <td style="color:#9ca3af;white-space:nowrap">${esc(t.deadline||'—')}</td>
+        <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
           <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
@@ -427,25 +509,14 @@ function render(){
     }).join('');
 }
 
-function sel(bindKey,opts,placeholder,attrs){
-  const cur=eval(bindKey);
-  return`<select ${attrs} onchange="${bindKey}=this.value;render()">
-    <option value="">${placeholder}</option>
-    ${opts.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('')}
-  </select>`;
-}
-
-function resetFilter(){filter={q:'',type:'',status:'',result:'',employee:''};render();}
-
-// ── Modal ─────────────────────────────────────────
+// ── Tender Modal ──────────────────────────
 function formVals(){
   const g=id=>document.getElementById(id)?.value??'';
   return{number:g('f-num'),name:g('f-name'),customer:g('f-cust'),platform:g('f-plat'),
     url:g('f-url'),type:g('f-type'),nmc:g('f-nmc'),price:g('f-price'),cost:g('f-cost'),
-    status:g('f-stat'),decision:g('f-dec'),result:g('f-res'),
+    status:g('f-stat'),decision:g('f-dec'),result:g('f-res'),reason_no:g('f-reason'),
     employee:g('f-emp'),deadline:g('f-dead'),comment:g('f-comm')};
 }
-
 function updateCalc(){
   const d=formVals();
   const{margin,marginPct,discount}=calcT(d);
@@ -455,13 +526,16 @@ function updateCalc(){
      <div class="calc-item"><div class="calc-label">Маржинальность</div><div class="calc-val" style="color:${mc}">${fmtP(marginPct)}</div></div>
      ${margin!=null?`<div class="calc-item"><div class="calc-label">Маржа (руб.)</div><div class="calc-val">${fmtR(margin)}</div></div>`:''}`;
 }
+function toggleReason(){
+  const dec=document.getElementById('f-dec')?.value;
+  const box=document.getElementById('reason-field');
+  if(box)box.style.display=dec==='Не участвуем'?'':'none';
+}
 
 function buildModal(d={},mode='add'){
   const v=(k,def='')=>esc(d[k]??def);
-  const opts=(arr,cur)=>arr.map(o=>`<option${(d[o]||cur)===o?' selected':''}>${esc(o)}</option>`).join('');
-  // for selects with default val
   const optsD=(arr,cur)=>arr.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('');
-  const inpH='class="inp"';
+  const ih='class="inp"';
   return`
   <div class="modal-header">
     <span class="modal-title">${mode==='add'?'Добавить тендер':'Редактировать тендер'}</span>
@@ -469,34 +543,37 @@ function buildModal(d={},mode='add'){
   </div>
   <div class="modal-body">
     <div class="field"><label class="field-label">Номер закупки</label>
-      <input id="f-num" ${inpH} value="${v('number')}" placeholder="0123456789..."></div>
+      <input id="f-num" ${ih} value="${v('number')}" placeholder="0123456789..."></div>
     <div class="field"><label class="field-label">Тип закупки</label>
-      <select id="f-type" ${inpH}>${optsD(TYPES,d.type||TYPES[0])}</select></div>
-    <div class="field field-full"><label class="field-label">Наименование закупки</label>
-      <input id="f-name" ${inpH} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
+      <select id="f-type" ${ih}>${optsD(TYPES,d.type||TYPES[0])}</select></div>
+    <div class="field field-full"><label class="field-label">Наименование</label>
+      <input id="f-name" ${ih} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
     <div class="field"><label class="field-label">Заказчик</label>
-      <input id="f-cust" ${inpH} value="${v('customer')}" placeholder="Наименование заказчика"></div>
+      <input id="f-cust" ${ih} value="${v('customer')}" placeholder="Наименование заказчика"></div>
     <div class="field"><label class="field-label">Торговая площадка</label>
-      <select id="f-plat" ${inpH}>${optsD(PLATFORMS,d.platform||PLATFORMS[0])}</select></div>
+      <select id="f-plat" ${ih}>${optsD(PLATFORMS,d.platform||PLATFORMS[0])}</select></div>
     <div class="field field-full"><label class="field-label">Ссылка на закупку</label>
-      <input id="f-url" ${inpH} type="url" value="${v('url')}" placeholder="https://..."></div>
+      <input id="f-url" ${ih} type="url" value="${v('url')}" placeholder="https://..."></div>
     <div class="field"><label class="field-label">НМЦ (руб.)</label>
-      <input id="f-nmc" ${inpH} type="number" min="0" value="${v('nmc')}" oninput="updateCalc()"></div>
+      <input id="f-nmc" ${ih} type="number" min="0" value="${v('nmc')}" oninput="updateCalc()"></div>
     <div class="field"><label class="field-label">Наша цена (руб.)</label>
-      <input id="f-price" ${inpH} type="number" min="0" value="${v('price')}" oninput="updateCalc()"></div>
+      <input id="f-price" ${ih} type="number" min="0" value="${v('price')}" oninput="updateCalc()"></div>
     <div class="field"><label class="field-label">Себестоимость (руб.)</label>
-      <input id="f-cost" ${inpH} type="number" min="0" value="${v('cost')}" oninput="updateCalc()"></div>
-    <div id="calc-box" class="calc-box"><div style="color:#9ca3af;font-size:12px">Заполните цены для расчёта</div></div>
+      <input id="f-cost" ${ih} type="number" min="0" value="${v('cost')}" oninput="updateCalc()"></div>
+    <div id="calc-box" class="calc-box field-full"><div style="color:#9ca3af;font-size:12px">Заполните цены для расчёта</div></div>
     <div class="field"><label class="field-label">Статус</label>
-      <select id="f-stat" ${inpH}>${optsD(STATUSES,d.status||STATUSES[0])}</select></div>
+      <select id="f-stat" ${ih}>${optsD(STATUSES,d.status||STATUSES[0])}</select></div>
     <div class="field"><label class="field-label">Решение</label>
-      <select id="f-dec" ${inpH}>${optsD(DECISIONS,d.decision||DECISIONS[0])}</select></div>
+      <select id="f-dec" ${ih} onchange="toggleReason()">${optsD(DECISIONS,d.decision||DECISIONS[0])}</select></div>
+    <div class="field field-full" id="reason-field" style="display:${d.decision==='Не участвуем'?'':'none'}">
+      <label class="field-label">Причина отказа от участия</label>
+      <input id="f-reason" ${ih} value="${v('reason_no')}" placeholder="Укажите причину..."></div>
     <div class="field"><label class="field-label">Итог</label>
-      <select id="f-res" ${inpH}>${optsD(RESULTS,d.result||RESULTS[0])}</select></div>
-    <div class="field"><label class="field-label">Сотрудник (разместил заявку)</label>
-      <input id="f-emp" ${inpH} value="${v('employee',currentUser)}" placeholder="Фамилия Имя"></div>
+      <select id="f-res" ${ih}>${optsD(RESULTS,d.result||RESULTS[0])}</select></div>
+    <div class="field"><label class="field-label">Сотрудник</label>
+      <input id="f-emp" ${ih} value="${v('employee',currentUser?.name||'')}" placeholder="Фамилия Имя"></div>
     <div class="field"><label class="field-label">Срок подачи заявок</label>
-      <input id="f-dead" ${inpH} type="date" value="${v('deadline')}"></div>
+      <input id="f-dead" ${ih} type="date" value="${v('deadline')}"></div>
     <div class="field field-full"><label class="field-label">Комментарий</label>
       <textarea id="f-comm" class="inp" style="height:60px">${v('comment')}</textarea></div>
   </div>
@@ -507,34 +584,78 @@ function buildModal(d={},mode='add'){
 }
 
 function openAdd(){
-  document.getElementById('modal-box').innerHTML=buildModal({employee:currentUser},'add');
+  document.getElementById('modal-box').innerHTML=buildModal({employee:currentUser?.name},'add');
   document.getElementById('modal-overlay').style.display='flex';
   updateCalc();
 }
 function openEdit(id){
-  const t=tenders.find(x=>x.id===id);
-  if(!t)return;
+  const t=tenders.find(x=>x.id===id); if(!t)return;
   document.getElementById('modal-box').innerHTML=buildModal(t,'edit');
   document.getElementById('modal-overlay').style.display='flex';
   updateCalc();
 }
 function closeModal(){document.getElementById('modal-overlay').style.display='none';}
-
 async function saveModal(mode,id){
-  const d=formVals();
-  closeModal();
-  if(mode==='add')await insert(d);
-  else await update(id,d);
+  const d=formVals(); closeModal();
+  if(mode==='add')await insertT(d); else await updateT(id,d);
 }
 
-// ── Delete ────────────────────────────────────────
+// ── Delete ────────────────────────────────
 function openDelete(id){deleteId=id;document.getElementById('del-overlay').style.display='flex';}
 function closeDelete(){deleteId=null;document.getElementById('del-overlay').style.display='none';}
-async function confirmDelete(){if(deleteId){await remove(deleteId);closeDelete();}}
+async function confirmDelete(){if(deleteId){await removeT(deleteId);closeDelete();}}
 
-// ── Export Excel ──────────────────────────────────
+// ── Admin Panel ───────────────────────────
+function openAdmin(){
+  document.getElementById('admin-overlay').style.display='flex';
+  renderAdmin();
+}
+function closeAdmin(){document.getElementById('admin-overlay').style.display='none';}
+
+function renderAdmin(){
+  const rows=users.map(u=>`
+    <div class="user-row">
+      <div class="user-name">${esc(u.name)}</div>
+      <span class="user-role${u.role==='admin'?' admin':''}">${u.role==='admin'?'Админ':'Сотрудник'}</span>
+      <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">Удалить</button>
+    </div>`).join('');
+  document.getElementById('admin-box').innerHTML=`
+    <div class="modal-header">
+      <span class="modal-title">⚙ Управление пользователями</span>
+      <button class="modal-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div style="padding:16px 20px">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:10px">Всего пользователей: ${users.length}</div>
+      ${rows||'<div style="color:#9ca3af;font-size:13px">Нет пользователей</div>'}
+      <div class="add-user-form">
+        <div><div class="field-label">Имя</div><input id="new-name" class="inp" placeholder="Фамилия Имя"></div>
+        <div><div class="field-label">Пароль</div><input id="new-pass" class="inp" type="password" placeholder="Пароль"></div>
+        <div><div class="field-label">Роль</div>
+          <select id="new-role" class="inp" style="background:#fff">
+            <option value="user">Сотрудник</option>
+            <option value="admin">Админ</option>
+          </select>
+        </div>
+        <div style="padding-top:16px">
+          <button class="btn btn-green" onclick="doAddUser()">+ Добавить</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function doAddUser(){
+  const name=document.getElementById('new-name').value.trim();
+  const pass=document.getElementById('new-pass').value.trim();
+  const role=document.getElementById('new-role').value;
+  if(!name||!pass){alert('Заполните имя и пароль');return;}
+  await addUser(name,pass,role);
+  document.getElementById('new-name').value='';
+  document.getElementById('new-pass').value='';
+}
+
+// ── Export Excel ──────────────────────────
 function exportXlsx(){
-  const rows=filtered().map(t=>{
+  const rows=getFiltered().map(t=>{
     const{marginPct,discount}=calcT(t);
     return{
       'Номер закупки':t.number,'Наименование':t.name,'Заказчик':t.customer,
@@ -542,13 +663,13 @@ function exportXlsx(){
       'НМЦ (руб.)':toN(t.nmc)??'','Наша цена (руб.)':toN(t.price)??'','Себестоимость (руб.)':toN(t.cost)??'',
       'Снижение от НМЦ (%)':discount!=null?+discount.toFixed(2):'',
       'Маржинальность (%)':marginPct!=null?+marginPct.toFixed(2):'',
-      'Статус':t.status,'Решение':t.decision,'Итог':t.result,
-      'Сотрудник':t.employee,'Срок подачи':t.deadline,'Ссылка':t.url,'Комментарий':t.comment,
+      'Статус':t.status,'Решение':t.decision,'Причина отказа':t.reason_no||'',
+      'Итог':t.result,'Сотрудник':t.employee,'Срок подачи':t.deadline,
+      'Ссылка':t.url,'Комментарий':t.comment,
     };
   });
   const ws=XLSX.utils.json_to_sheet(rows);
-  // Column widths
-  ws['!cols']=[20,35,25,18,10,16,16,16,14,14,18,12,12,20,14,35,30].map(w=>({wch:w}));
+  ws['!cols']=[20,35,25,18,10,16,16,16,14,14,18,12,20,12,20,14,35,30].map(w=>({wch:w}));
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Тендеры');
   XLSX.writeFile(wb,`ТехноПро_тендеры_${new Date().toISOString().slice(0,10)}.xlsx`);
