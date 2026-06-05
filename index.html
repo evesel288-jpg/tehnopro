@@ -222,7 +222,8 @@ const SUPABASE_KEY = 'sb_publishable_AdnqI2sd4gS-AWhsbbA2RQ_4kcE1dpC';
 const PLATFORMS = ['ЕИС','Сбербанк-АСТ','РТС-тендер','Росэлторг','ТЭК-Торг','ЕЭТП','B2B-Center','Другая'];
 const TYPES     = ['44-ФЗ','223-ФЗ','Коммерческая'];
 const STATUSES  = ['Отобрано','Рассмотрено','Принято в работу'];
-const DECISIONS = ['—','Участвуем','Не участвуем'];
+const DECISIONS = ['—','Участвуем','Участвуем с оговорками','Не участвуем','Не принято'];
+const PROD_TYPES = ['Металлоконструкции','Тентовые конструкции','Блочные модули','Строительство','Оборудование','АЛТС','Прочее'];
 const RESULTS   = ['В процессе','Победа','Поражение','Отказ'];
 
 const TYPE_C   = {'44-ФЗ':'#dbeafe|#1e40af','223-ФЗ':'#ede9fe|#6b21a8','Коммерческая':'#ffedd5|#9a3412'};
@@ -351,8 +352,7 @@ async function insertT(row){
 }
 async function updateT(id,row){
   const{error}=await sb.from('tenders').update(row).eq('id',id);
-  if(error){alert('Ошибка сохранения: '+error.message);return;}
-  tenders=tenders.map(x=>x.id==id?{...x,...row}:x);
+  if(!error)tenders=tenders.map(x=>x.id===id?{...x,...row}:x);
   render();
 }
 async function removeT(id){
@@ -449,11 +449,18 @@ function render(){
       ?`<a href="${esc(t.url)}" target="_blank" class="card-num" style="color:#2563eb">${esc(t.number||'—')}</a>`
       :`<span class="card-num" style="color:#6b7280">${esc(t.number||'—')}</span>`;
     const decEl=t.decision&&t.decision!=='—'
-      ?`<span style="font-size:11px;font-weight:600;color:${t.decision==='Участвуем'?'#15803d':'#dc2626'}">${esc(t.decision)}</span>`:'';
+      ?`<span style="font-size:11px;font-weight:600;color:${t.decision==='Участвуем'?'#15803d':t.decision==='Участвуем с оговорками'?'#d97706':t.decision==='Не принято'?'#6b7280':'#dc2626'}">${esc(t.decision)}</span>`:'';
     const empEl=t.employee?`<span class="badge" style="background:#f3f4f6;color:#6b7280">👤 ${esc(t.employee)}</span>`:'';
+    const prodEl=t.product_type?`<span class="badge" style="background:#f0fdf4;color:#166534">${esc(t.product_type)}</span>`:'';
     const reasonEl=t.decision==='Не участвуем'&&t.reason_no
       ?`<div class="reason-badge">⚠ Причина: ${esc(t.reason_no)}</div>`:'';
-    return`<div class="card">
+    const caveatEl=t.decision==='Участвуем с оговорками'&&t.caveat
+      ?`<div class="reason-badge" style="background:#fff8e1;color:#856404">📋 Оговорки: ${esc(t.caveat)}</div>`:'';
+    const workEl=t.work_status
+      ?`<div style="font-size:11px;color:#2563eb;margin-top:4px">🔧 ${esc(t.work_status)}</div>`:'';
+    const commentEl=t.comment
+      ?`<div class="card-comment">${esc(t.comment)}${t.work_status?' / '+esc(t.work_status):''}</div>`
+      :(t.work_status?`<div class="card-comment" style="font-style:normal;color:#2563eb">🔧 ${esc(t.work_status)}</div>`:'');    return`<div class="card">
       <div class="card-top">
         <div class="card-info">${numEl}
           <div class="card-name">${esc(t.name)||'<span style="color:#d1d5db">Без названия</span>'}</div>
@@ -464,7 +471,7 @@ function render(){
           <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </div>
       </div>
-      <div class="card-badges">${chip(t.type,TYPE_C)}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
+      <div class="card-badges">${chip(t.type,TYPE_C)}${prodEl}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
       <div class="card-metrics">
         <div class="metric"><div class="metric-label">НМЦ</div><div class="metric-val">${t.nmc?fmtR(t.nmc)+' ₽':'—'}</div></div>
         <div class="metric"><div class="metric-label">Наша цена</div><div class="metric-val">${t.price?fmtR(t.price)+' ₽':'—'}</div></div>
@@ -472,9 +479,7 @@ function render(){
         <div class="metric"><div class="metric-label">Маржа</div><div class="metric-val" style="color:${mc}">${fmtP(marginPct)}</div></div>
       </div>
       ${t.deadline?`<div class="card-footer"><span class="ddot" style="background:${dc}"></span><span style="color:${dc};font-weight:500">${esc(dl)}</span></div>`:''}
-      ${reasonEl}
-      ${t.comment?`<div class="card-comment">${esc(t.comment)}</div>`:''}
-    </div>`;
+      ${reasonEl}${caveatEl}${commentEl}
   }).join('');
 
   // Table
@@ -529,8 +534,10 @@ function updateCalc(){
 }
 function toggleReason(){
   const dec=document.getElementById('f-dec')?.value;
-  const box=document.getElementById('reason-field');
-  if(box)box.style.display=dec==='Не участвуем'?'':'none';
+  const rf=document.getElementById('reason-field');
+  const cf=document.getElementById('caveat-field');
+  if(rf)rf.style.display=dec==='Не участвуем'?'':'none';
+  if(cf)cf.style.display=dec==='Участвуем с оговорками'?'':'none';
 }
 
 function buildModal(d={},mode='add'){
@@ -547,6 +554,8 @@ function buildModal(d={},mode='add'){
       <input id="f-num" ${ih} value="${v('number')}" placeholder="0123456789..."></div>
     <div class="field"><label class="field-label">Тип закупки</label>
       <select id="f-type" ${ih}>${optsD(TYPES,d.type||TYPES[0])}</select></div>
+    <div class="field"><label class="field-label">Тип продукции</label>
+      <select id="f-prodtype" ${ih}><option value="">— не выбрано —</option>${PROD_TYPES.map(o=>`<option${(d.product_type||'')=== o?' selected':''}>${esc(o)}</option>`).join('')}</select></div>
     <div class="field field-full"><label class="field-label">Наименование</label>
       <input id="f-name" ${ih} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
     <div class="field"><label class="field-label">Заказчик</label>
@@ -569,6 +578,9 @@ function buildModal(d={},mode='add'){
     <div class="field field-full" id="reason-field" style="display:${d.decision==='Не участвуем'?'':'none'}">
       <label class="field-label">Причина отказа от участия</label>
       <input id="f-reason" ${ih} value="${v('reason_no')}" placeholder="Укажите причину..."></div>
+    <div class="field field-full" id="caveat-field" style="display:${d.decision==='Участвуем с оговорками'?'':'none'}">
+      <label class="field-label">Оговорки (пояснение)</label>
+      <input id="f-caveat" ${ih} value="${v('caveat')}" placeholder="Укажите оговорки..."></div>
     <div class="field"><label class="field-label">Итог</label>
       <select id="f-res" ${ih}>${optsD(RESULTS,d.result||RESULTS[0])}</select></div>
     <div class="field"><label class="field-label">Сотрудник</label>
@@ -576,7 +588,9 @@ function buildModal(d={},mode='add'){
     <div class="field"><label class="field-label">Срок подачи заявок</label>
       <input id="f-dead" ${ih} type="date" value="${v('deadline')}"></div>
     <div class="field field-full"><label class="field-label">Комментарий</label>
-      <textarea id="f-comm" class="inp" style="height:60px">${v('comment')}</textarea></div>
+      <textarea id="f-comm" class="inp" style="height:56px">${v('comment')}</textarea></div>
+    <div class="field field-full"><label class="field-label">Статус работы <span style="color:#9ca3af;font-weight:400">(что сделано)</span></label>
+      <input id="f-workstatus" ${ih} value="${v('work_status')}" placeholder="Запрос КП, ожидаем ответа..."></div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
@@ -660,13 +674,15 @@ function exportXlsx(){
     const{marginPct,discount}=calcT(t);
     return{
       'Номер закупки':t.number,'Наименование':t.name,'Заказчик':t.customer,
-      'Площадка':t.platform,'Тип':t.type,
+      'Площадка':t.platform,'Тип закупки':t.type,'Тип продукции':t.product_type||'',
       'НМЦ (руб.)':toN(t.nmc)??'','Наша цена (руб.)':toN(t.price)??'','Себестоимость (руб.)':toN(t.cost)??'',
       'Снижение от НМЦ (%)':discount!=null?+discount.toFixed(2):'',
       'Маржинальность (%)':marginPct!=null?+marginPct.toFixed(2):'',
-      'Статус':t.status,'Решение':t.decision,'Причина отказа':t.reason_no||'',
+      'Статус':t.status,'Решение':t.decision,
+      'Причина отказа':t.reason_no||'','Оговорки':t.caveat||'',
       'Итог':t.result,'Сотрудник':t.employee,'Срок подачи':t.deadline,
-      'Ссылка':t.url,'Комментарий':t.comment,
+      'Статус работы':t.work_status||'','Комментарий':t.comment,
+      'Ссылка':t.url,
     };
   });
   const ws=XLSX.utils.json_to_sheet(rows);
