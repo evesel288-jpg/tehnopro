@@ -38,7 +38,7 @@ textarea.inp{resize:none}
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px 12px 6px}
-.stats-grid2{display:grid;grid-template-columns:1fr;gap:6px;padding:0 12px 8px}
+.stats-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 12px 8px}
 .stat-card{background:#fff;border-radius:8px;padding:8px 10px;box-shadow:0 1px 3px rgba(0,0,0,.08);text-align:center}
 .stat-label{color:#9ca3af;font-size:10px}
 .stat-val{font-weight:700;font-size:18px;color:#1f2937;margin-top:1px}
@@ -181,9 +181,9 @@ textarea.inp{resize:none}
     <div class="tbl-scroll">
       <table class="tbl">
         <thead><tr>
-          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Процедура</th><th>Продукция</th>
+          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th>
           <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th>Комментарий</th><th></th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -224,7 +224,6 @@ const TYPES     = ['44-ФЗ','223-ФЗ','Коммерческая'];
 const STATUSES  = ['Отобрано','Рассмотрено','Принято в работу'];
 const DECISIONS = ['—','Участвуем','Участвуем с оговорками','Не участвуем','Не принято'];
 const PROD_TYPES = ['Металлоконструкции','Тентовые конструкции','Блочные модули','Строительство','Оборудование','АЛТС','Прочее'];
-const PROC_TYPES = ['Аукцион','Конкурс','Запрос котировок','Запрос предложений','Иное'];
 const RESULTS   = ['В процессе','Победа','Поражение','Отказ'];
 
 const TYPE_C   = {'44-ФЗ':'#dbeafe|#1e40af','223-ФЗ':'#ede9fe|#6b21a8','Коммерческая':'#ffedd5|#9a3412'};
@@ -232,7 +231,7 @@ const STATUS_C = {'Отобрано':'#f3f4f6|#374151','Рассмотрено':
 const RESULT_C = {'В процессе':'#eff6ff|#1d4ed8','Победа':'#dcfce7|#166534','Поражение':'#fee2e2|#991b1b','Отказ':'#f3f4f6|#6b7280'};
 
 let sb, tenders=[], users=[], currentUser=null, deleteId=null;
-let filter={q:'',type:'',status:'',result:'',employee:'',proc:''};
+let filter={q:'',type:'',status:'',result:'',employee:''};
 
 const fmtR = v => v?Number(v).toLocaleString('ru-RU',{maximumFractionDigits:0}):'—';
 const fmtP = v => (v!=null&&!isNaN(v))?v.toFixed(1)+'%':'—';
@@ -389,7 +388,6 @@ function getFiltered(){
     if(filter.type     &&t.type!==filter.type)        return false;
     if(filter.status   &&t.status!==filter.status)    return false;
     if(filter.result   &&t.result!==filter.result)    return false;
-    if(filter.proc     &&t.proc_type!==filter.proc)   return false;
     if(filter.employee &&t.employee!==filter.employee)return false;
     if(filter.q){
       const q=filter.q.toLowerCase();
@@ -421,20 +419,20 @@ function render(){
     {l:'Всего',v:st.total},{l:'Отобрано',v:st.byS['Отобрано']},
     {l:'В работе',v:st.byS['Принято в работу']},{l:'Победы',v:st.wins},
     {l:'Рассмотрено',v:st.byS['Рассмотрено']},
-
+    {l:'Сумма НМЦ',v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0',sm:true},
   ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
     <div class="stat-val${s.sm?' stat-val-sm':''}">${s.v}</div></div>`).join('');
 
   document.getElementById('stats-bot').innerHTML=[
+    {l:'Сумма НМЦ',v:st.nmcSum?fmtR(st.nmcSum)+' ₽':'0'},
     {l:'Средняя маржа',v:st.avgM!=null?fmtP(st.avgM):'—'},
   ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
     <div class="stat-val stat-val-sm">${s.v}</div></div>`).join('');
 
   const ss='border:1px solid #d1d5db;border-radius:6px;padding:5px 7px;font-size:12px;background:#fff;outline:none;cursor:pointer;font-family:inherit';
   let fh=`<input class="filter-inp" value="${esc(filter.q)}" placeholder="🔍 Поиск..." oninput="filter.q=this.value;render()">`;
-  [[filter.type,TYPES,'Тип'],[filter.status,STATUSES,'Статус'],[filter.result,RESULTS,'Итог'],[filter.proc,PROC_TYPES,'Процедура']].forEach(([cur,opts,lbl])=>{
-    const key=lbl==='Тип'?'type':lbl==='Статус'?'status':lbl==='Итог'?'result':'proc';
-    fh+=`<select style="${ss}" onchange="filter.${key}=this.value;render()">
+  [[filter.type,TYPES,'Тип'],[filter.status,STATUSES,'Статус'],[filter.result,RESULTS,'Итог']].forEach(([cur,opts,lbl])=>{
+    fh+=`<select style="${ss}" onchange="filter.${lbl==='Тип'?'type':lbl==='Статус'?'status':'result'}=this.value;render()">
       <option value="">Все (${lbl})</option>${opts.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('')}</select>`;
   });
   if(emps.length>1){
@@ -442,7 +440,7 @@ function render(){
       <option value="">Все (Сотрудник)</option>${emps.map(e=>`<option${filter.employee===e?' selected':''}>${esc(e)}</option>`).join('')}</select>`;
   }
   if(Object.values(filter).some(Boolean))
-    fh+=`<button onclick="filter={q:'',type:'',status:'',result:'',employee:'',proc:''};render()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:12px">✕</button>`;
+    fh+=`<button onclick="filter={q:'',type:'',status:'',result:'',employee:''};render()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:12px">✕</button>`;
   fh+=`<span class="filter-count">${rows.length} из ${tenders.length}</span>`;
   document.getElementById('filters-bar').innerHTML=fh;
 
@@ -456,6 +454,9 @@ function render(){
     const mc=mColor(marginPct);
     const dc=deadlineColor(t.deadline);
     const dl=deadlineLabel(t.deadline);
+    const platLabel = t.platform==='Другая'&&t.platform_custom ? t.platform_custom : t.platform;
+    const fileEl = t.analysis_file_url
+      ?`<div style="font-size:11px;margin-top:6px">📎 <a href="${esc(t.analysis_file_url)}" target="_blank" style="color:#2563eb">${esc(t.analysis_file_name||'Анализ тендера')}</a></div>`:'';
     const numEl=t.url
       ?`<a href="${esc(t.url)}" target="_blank" class="card-num" style="color:#2563eb">${esc(t.number||'—')}</a>`
       :`<span class="card-num" style="color:#6b7280">${esc(t.number||'—')}</span>`;
@@ -475,7 +476,7 @@ function render(){
       <div class="card-top">
         <div class="card-info">${numEl}
           <div class="card-name">${esc(t.name)||'<span style="color:#d1d5db">Без названия</span>'}</div>
-          <div class="card-sub">${esc([t.customer,t.platform].filter(Boolean).join(' · '))}</div>
+          <div class="card-sub">${esc([t.customer,platLabel].filter(Boolean).join(' · '))}</div>
         </div>
         <div class="card-actions">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
@@ -490,7 +491,7 @@ function render(){
         <div class="metric"><div class="metric-label">Маржа</div><div class="metric-val" style="color:${mc}">${fmtP(marginPct)}</div></div>
       </div>
       ${t.deadline?`<div class="card-footer"><span class="ddot" style="background:${dc}"></span><span style="color:${dc};font-weight:500">${esc(dl)}</span></div>`:''}
-      ${reasonEl}${caveatEl}${commentEl}
+      ${reasonEl}${caveatEl}${commentEl}${fileEl}
     </div>`;
   }).join('');
 
@@ -509,8 +510,6 @@ function render(){
         <td class="tbl-name-col"><div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
           <div class="tbl-name-sub">${esc([t.customer,t.platform].filter(Boolean).join(' · '))}</div></td>
         <td>${chip(t.type,TYPE_C)}</td>
-        <td style="font-size:11px;color:#6b7280;white-space:nowrap">${esc(t.proc_type||'—')}</td>
-        <td style="font-size:11px;color:#166534;white-space:nowrap">${esc(t.product_type||'—')}</td>
         <td class="tbl-right">${fmtR(t.nmc)}</td>
         <td class="tbl-right">${fmtR(t.price)}</td>
         <td class="tbl-center">${fmtP(discount)}</td>
@@ -521,7 +520,6 @@ function render(){
         <td>${chip(t.result,RESULT_C)}</td>
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
-        <td style="max-width:180px;color:#6b7280;font-size:11px;white-space:normal">${esc(t.comment||'—')}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
           <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
@@ -536,8 +534,7 @@ function formVals(){
   return{number:g('f-num'),name:g('f-name'),customer:g('f-cust'),platform:g('f-plat'),
     url:g('f-url'),type:g('f-type'),nmc:g('f-nmc'),price:g('f-price'),cost:g('f-cost'),
     status:g('f-stat'),decision:g('f-dec'),result:g('f-res'),reason_no:g('f-reason'),
-    employee:g('f-emp'),deadline:g('f-dead'),comment:g('f-comm'),
-    product_type:g('f-prodtype'),proc_type:g('f-proctype'),caveat:g('f-caveat'),work_status:g('f-workstatus')};
+    employee:g('f-emp'),deadline:g('f-dead'),comment:g('f-comm')};
 }
 function updateCalc(){
   const d=formVals();
@@ -554,6 +551,11 @@ function toggleReason(){
   const cf=document.getElementById('caveat-field');
   if(rf)rf.style.display=dec==='Не участвуем'?'':'none';
   if(cf)cf.style.display=dec==='Участвуем с оговорками'?'':'none';
+}
+function togglePlatform(){
+  const p=document.getElementById('f-plat')?.value;
+  const box=document.getElementById('platform-custom-field');
+  if(box)box.style.display=p==='Другая'?'':'none';
 }
 
 function buildModal(d={},mode='add'){
@@ -572,14 +574,15 @@ function buildModal(d={},mode='add'){
       <select id="f-type" ${ih}>${optsD(TYPES,d.type||TYPES[0])}</select></div>
     <div class="field"><label class="field-label">Тип продукции</label>
       <select id="f-prodtype" ${ih}><option value="">— не выбрано —</option>${PROD_TYPES.map(o=>`<option${(d.product_type||'')=== o?' selected':''}>${esc(o)}</option>`).join('')}</select></div>
-    <div class="field"><label class="field-label">Вид процедуры</label>
-      <select id="f-proctype" ${ih}><option value="">— не выбрано —</option>${PROC_TYPES.map(o=>`<option${(d.proc_type||'')=== o?' selected':''}>${esc(o)}</option>`).join('')}</select></div>
     <div class="field field-full"><label class="field-label">Наименование</label>
       <input id="f-name" ${ih} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
     <div class="field"><label class="field-label">Заказчик</label>
       <input id="f-cust" ${ih} value="${v('customer')}" placeholder="Наименование заказчика"></div>
     <div class="field"><label class="field-label">Торговая площадка</label>
-      <select id="f-plat" ${ih}>${optsD(PLATFORMS,d.platform||PLATFORMS[0])}</select></div>
+      <select id="f-plat" ${ih} onchange="togglePlatform()">${optsD(PLATFORMS,d.platform||PLATFORMS[0])}</select></div>
+    <div class="field" id="platform-custom-field" style="display:${d.platform==='Другая'?'':'none'}">
+      <label class="field-label">Название площадки</label>
+      <input id="f-plat-custom" ${ih} value="${v('platform_custom')}" placeholder="Введите название площадки"></div>
     <div class="field field-full"><label class="field-label">Ссылка на закупку</label>
       <input id="f-url" ${ih} type="url" value="${v('url')}" placeholder="https://..."></div>
     <div class="field"><label class="field-label">НМЦ (руб.)</label>
@@ -609,6 +612,16 @@ function buildModal(d={},mode='add'){
       <textarea id="f-comm" class="inp" style="height:56px">${v('comment')}</textarea></div>
     <div class="field field-full"><label class="field-label">Статус работы <span style="color:#9ca3af;font-weight:400">(что сделано)</span></label>
       <input id="f-workstatus" ${ih} value="${v('work_status')}" placeholder="Запрос КП, ожидаем ответа..."></div>
+    <div class="field field-full">
+      <label class="field-label">Анализ тендера <span style="color:#9ca3af;font-weight:400">(прикрепить файл)</span></label>
+      ${d.analysis_file_url
+        ?`<div style="margin-bottom:6px;font-size:12px">
+            📎 <a href="${esc(d.analysis_file_url)}" target="_blank" style="color:#2563eb">${esc(d.analysis_file_name||'Открыть файл')}</a>
+            <span style="color:#9ca3af;margin-left:8px">— загрузите новый чтобы заменить</span>
+           </div>`
+        :''}
+      <input id="f-file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg" style="font-size:12px;width:100%">
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
@@ -629,7 +642,25 @@ function openEdit(id){
 }
 function closeModal(){document.getElementById('modal-overlay').style.display='none';}
 async function saveModal(mode,id){
-  const d=formVals(); closeModal();
+  const d=formVals();
+  const fileInput=document.getElementById('f-file');
+  const file=fileInput?.files?.[0];
+  if(file){
+    try{
+      const fileName=`${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
+      const{error}=await sb.storage.from('tender-files').upload(fileName,file,{upsert:true});
+      if(!error){
+        const{data:urlData}=sb.storage.from('tender-files').getPublicUrl(fileName);
+        d.analysis_file_url=urlData.publicUrl;
+        d.analysis_file_name=file.name;
+      } else {
+        alert('Ошибка загрузки файла: '+error.message);
+      }
+    }catch(e){
+      console.error('File upload error:',e);
+    }
+  }
+  closeModal();
   if(mode==='add')await insertT(d); else await updateT(id,d);
 }
 
@@ -692,7 +723,7 @@ function exportXlsx(){
     const{marginPct,discount}=calcT(t);
     return{
       'Номер закупки':t.number,'Наименование':t.name,'Заказчик':t.customer,
-      'Площадка':t.platform,'Тип закупки':t.type,'Вид процедуры':t.proc_type||'','Тип продукции':t.product_type||'',
+      'Площадка':t.platform,'Тип закупки':t.type,'Тип продукции':t.product_type||'',
       'НМЦ (руб.)':toN(t.nmc)??'','Наша цена (руб.)':toN(t.price)??'','Себестоимость (руб.)':toN(t.cost)??'',
       'Снижение от НМЦ (%)':discount!=null?+discount.toFixed(2):'',
       'Маржинальность (%)':marginPct!=null?+marginPct.toFixed(2):'',
