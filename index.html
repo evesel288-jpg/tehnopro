@@ -175,9 +175,9 @@ textarea.inp{resize:none}
     <div class="tbl-scroll">
       <table class="tbl">
         <thead><tr>
-          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Продукция</th>
+          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
           <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Вид процедуры</th><th>Сотрудник</th><th>Срок подачи</th><th>Файл</th><th></th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th>Файл</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -396,13 +396,13 @@ function render(){
   document.getElementById('stats-top').innerHTML=[
     {l:'Всего',v:st.total},{l:'Отобрано',v:st.byS['Отобрано']},
     {l:'Рассмотрено',v:st.byS['Рассмотрено']},{l:'В работе',v:st.byS['Принято в работу']},
-    {l:'Победы',v:st.wins},{l:'Средняя маржа',v:st.avgM!=null?fmtP(st.avgM):'—',sm:true},
+    {l:'Победы',v:st.wins},{l:'Проигрыши',v:st.byS?.['Поражение']||tenders.filter(t=>t.result==='Поражение').length},
   ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
-    <div class="stat-val${s.sm?' stat-val-sm':''}">${s.v}</div></div>`).join('');
+    <div class="stat-val">${s.v}</div></div>`).join('');
 
   document.getElementById('stats-bot').innerHTML=[
     {l:'Победы',v:st.wins},
-    {l:'Средняя маржа',v:st.avgM!=null?fmtP(st.avgM):'—'},
+    {l:'В работе',v:st.byS['Принято в работу']},
   ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
     <div class="stat-val stat-val-sm">${s.v}</div></div>`).join('');
 
@@ -488,8 +488,8 @@ function render(){
           <div class="tbl-name-sub">${esc([t.customer,platLabel(t)].filter(Boolean).join(' · '))}</div>
         </td>
         <td>${chip(t.type,TYPE_C)}</td>
+        <td style="font-size:11px;color:#6b7280;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.procedure||'')}">${esc(t.procedure||'—')}</td>
         <td style="font-size:11px;color:#374151;white-space:nowrap">${esc(t.product_type||'—')}</td>
-        <td class="tbl-right">${fmtR(t.nmc)}</td>
         <td class="tbl-right">${fmtR(t.price)}</td>
         <td class="tbl-center">${fmtP(discount)}</td>
         <td class="tbl-center fw6" style="color:${mc}">${fmtP(marginPct)}</td>
