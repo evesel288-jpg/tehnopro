@@ -208,6 +208,7 @@ const STATUSES   = ['Отобрано','Рассмотрено','Принято 
 const DECISIONS  = ['—','Участвуем','Участвуем с оговорками','Не участвуем','Не принято'];
 const RESULTS    = ['В процессе','Победа','Поражение','Отказ'];
 const PROD_TYPES = ['Металлоконструкции','Тентовые конструкции','Блочные модули','Строительство','Оборудование','АЛТС','Автотехника','Станки','Механизация','Прочее'];
+const PROCEDURES = ['Электронный аукцион','Конкурс','Запрос предложений','Запрос котировок','Иной способ'];
 
 const TYPE_C   = {'44-ФЗ':'#dbeafe|#1e40af','223-ФЗ':'#ede9fe|#6b21a8','Коммерческая':'#ffedd5|#9a3412'};
 const STATUS_C = {'Отобрано':'#f3f4f6|#374151','Рассмотрено':'#fef9c3|#854d0e','Принято в работу':'#dcfce7|#166534'};
@@ -564,6 +565,17 @@ function buildModal(d={},mode='add'){
       <input id="f-num" ${ih} value="${v('number')}" placeholder="0123456789..."></div>
     <div class="field"><label class="field-label">Тип закупки</label>
       <select id="f-type" ${ih}>${optsD(TYPES,d.type||TYPES[0])}</select></div>
+    <div class="field field-full"><label class="field-label">Вид процедуры</label>
+      <select id="f-procedure" ${ih}>
+        <option value="">— не выбрано —</option>
+        ${(()=>{
+          const cur=d.procedure||'';
+          const isCustom=cur&&!PROCEDURES.includes(cur);
+          return (isCustom?`<option value="${esc(cur)}" selected>📋 ${esc(cur)}</option>`:'')
+            +PROCEDURES.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('');
+        })()}
+      </select>
+    </div>
     <div class="field field-full"><label class="field-label">Наименование</label>
       <input id="f-name" ${ih} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
     <div class="field"><label class="field-label">Заказчик</label>
@@ -600,8 +612,6 @@ function buildModal(d={},mode='add'){
       <input id="f-emp" ${ih} value="${v('employee',currentUser?.name||'')}" placeholder="Фамилия Имя"></div>
     <div class="field"><label class="field-label">Срок подачи</label>
       <input id="f-dead" ${ih} type="date" value="${v('deadline')}"></div>
-    <div class="field field-full"><label class="field-label">Вид процедуры</label>
-      <input id="f-procedure" ${ih} value="${v('procedure')}" placeholder="Открытый аукцион, запрос котировок..."></div>
     <div class="field field-full"><label class="field-label">Комментарий</label>
       <textarea id="f-comm" class="inp" style="height:56px">${v('comment')}</textarea></div>
     <div class="field field-full"><label class="field-label">Статус работы <span style="color:#9ca3af;font-weight:400">(что сделано)</span></label>
