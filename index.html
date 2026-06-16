@@ -473,7 +473,7 @@ function render(){
 
   // Table
   document.getElementById('tbl-body').innerHTML=rows.length===0
-    ?`<tr><td colspan="14">${emptyHtml}</td></tr>`
+    ?`<tr><td colspan="16">${emptyHtml}</td></tr>`
     :rows.map(t=>{
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
@@ -491,13 +491,13 @@ function render(){
         <td>${chip(t.type,TYPE_C)}</td>
         <td style="font-size:11px;color:#6b7280;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.procedure||'')}">${esc(t.procedure||'—')}</td>
         <td style="font-size:11px;color:#374151;white-space:nowrap">${esc(t.product_type||'—')}</td>
+        <td class="tbl-right">${fmtR(t.nmc)}</td>
         <td class="tbl-right">${fmtR(t.price)}</td>
         <td class="tbl-center">${fmtP(discount)}</td>
         <td class="tbl-center fw6" style="color:${mc}">${fmtP(marginPct)}</td>
         <td>${chip(t.status,STATUS_C)}</td>
         <td class="${decCls}" title="${esc(t.reason_no||t.caveat||'')}">${esc(t.decision||'—')}</td>
         <td>${chip(t.result,RESULT_C)}</td>
-        <td style="font-size:11px;color:#6b7280;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.procedure||'—')}</td>
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
         <td class="tbl-center">${tblFileEl}</td>
@@ -618,7 +618,12 @@ function buildModal(d={},mode='add'){
       <input id="f-workstatus" ${ih} value="${v('work_status')}" placeholder="Запрос КП, ожидаем ответа..."></div>
     <div class="field field-full">
       <label class="field-label">Анализ тендера <span style="color:#9ca3af;font-weight:400">(прикрепить файл)</span></label>
-      ${d.analysis_file_url?`<div style="margin-bottom:6px;font-size:12px">📎 <a href="${esc(d.analysis_file_url)}" target="_blank" style="color:#2563eb">${esc(d.analysis_file_name||'Открыть файл')}</a> <span style="color:#9ca3af">— загрузите новый чтобы заменить</span></div>`:''}
+      ${d.analysis_file_url
+        ?`<div style="margin-bottom:6px;font-size:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span>📎 <a href="${esc(d.analysis_file_url)}" target="_blank" style="color:#2563eb">${esc(d.analysis_file_name||'Открыть файл')}</a></span>
+            <button onclick="deleteFile(${d.id||'null'})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;font-weight:500">✕ Удалить файл</button>
+           </div>`
+        :''}
       <input id="f-file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg" style="font-size:12px;width:100%">
     </div>
   </div>
@@ -657,6 +662,19 @@ async function saveModal(mode,id){
   }
   closeModal();
   if(mode==='add')await insertT(d); else await updateT(id,d);
+}
+
+// ── File delete ───────────────────────────
+async function deleteFile(id){
+  if(!confirm('Удалить прикреплённый файл?'))return;
+  const t=tenders.find(x=>x.id===id);
+  if(!t||!t.analysis_file_url)return;
+  try{
+    const fileName=t.analysis_file_url.split('/').pop().split('?')[0];
+    await sb.storage.from('tender-files').remove([fileName]);
+  }catch(e){console.error('Storage remove:',e);}
+  await updateT(id,{analysis_file_url:null,analysis_file_name:null});
+  openEdit(id);
 }
 
 // ── Delete ────────────────────────────────
