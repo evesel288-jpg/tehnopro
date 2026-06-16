@@ -177,7 +177,7 @@ textarea.inp{resize:none}
         <thead><tr>
           <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
           <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Размещено</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -254,7 +254,9 @@ function deadlineLabel(dl){
   if(d===0)return`${dl} (сегодня!)`;
   return`${dl} (${d} дн.)`;
 }
-function platLabel(t){return t.platform==='Другая'&&t.platform_custom?t.platform_custom:t.platform;}
+function canDelete(t){
+  return currentUser?.role==='admin'||currentUser?.name===t.employee;
+}
 
 // ── Init ──────────────────────────────────
 window.addEventListener('load',async()=>{
@@ -454,7 +456,7 @@ function render(){
         </div>
         <div class="card-actions">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
+          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:''}
         </div>
       </div>
       <div class="card-badges">${chip(t.type,TYPE_C)}${prodEl}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
@@ -473,7 +475,7 @@ function render(){
 
   // Table
   document.getElementById('tbl-body').innerHTML=rows.length===0
-    ?`<tr><td colspan="17">${emptyHtml}</td></tr>`
+    ?`<tr><td colspan="18">${emptyHtml}</td></tr>`
     :rows.map(t=>{
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
@@ -499,12 +501,13 @@ function render(){
         <td class="${decCls}" title="${esc(t.reason_no||t.caveat||'')}">${esc(t.decision||'—')}</td>
         <td>${chip(t.result,RESULT_C)}</td>
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
+        <td style="color:#6b7280;white-space:nowrap">${esc(t.posted_date||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
         <td style="font-size:11px;color:#6b7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc([t.comment,t.work_status].filter(Boolean).join(' / '))}">${esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—'}</td>
         <td class="tbl-center">${tblFileEl}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
+          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:''}
         </td>
       </tr>`;
     }).join('');
@@ -611,6 +614,8 @@ function buildModal(d={},mode='add'){
       <select id="f-res" ${ih}>${optsD(RESULTS,d.result||RESULTS[0])}</select></div>
     <div class="field"><label class="field-label">Сотрудник</label>
       <input id="f-emp" ${ih} value="${v('employee',currentUser?.name||'')}" placeholder="Фамилия Имя"></div>
+    <div class="field"><label class="field-label">Дата размещения</label>
+      <input id="f-posted" ${ih} type="date" value="${v('posted_date')}"></div>
     <div class="field"><label class="field-label">Срок подачи</label>
       <input id="f-dead" ${ih} type="date" value="${v('deadline')}"></div>
     <div class="field field-full"><label class="field-label">Комментарий</label>
@@ -681,7 +686,13 @@ async function deleteFile(id){
 // ── Delete ────────────────────────────────
 function openDelete(id){deleteId=id;document.getElementById('del-overlay').style.display='flex';}
 function closeDelete(){deleteId=null;document.getElementById('del-overlay').style.display='none';}
-async function confirmDelete(){if(deleteId){await removeT(deleteId);closeDelete();}}
+async function confirmDelete(){
+  if(deleteId){
+    const t=tenders.find(x=>x.id===deleteId);
+    if(t&&!canDelete(t)){alert('Вы не можете удалить эту запись.');closeDelete();return;}
+    await removeT(deleteId);closeDelete();
+  }
+}
 
 // ── Admin ─────────────────────────────────
 function openAdmin(){document.getElementById('admin-overlay').style.display='flex';renderAdmin();}
@@ -732,7 +743,7 @@ function exportXlsx(){
       'Маржинальность (%)':marginPct!=null?+marginPct.toFixed(2):'',
       'Статус':t.status,'Решение':t.decision,
       'Причина отказа':t.reason_no||'','Оговорки':t.caveat||'',
-      'Итог':t.result,'Сотрудник':t.employee,'Срок подачи':t.deadline,
+      'Итог':t.result,'Сотрудник':t.employee,'Дата размещения':t.posted_date||'','Срок подачи':t.deadline,
       'Статус работы':t.work_status||'','Комментарий':t.comment,
       'Файл анализа':t.analysis_file_name||'','Ссылка':t.url,
     };
