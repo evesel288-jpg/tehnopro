@@ -177,7 +177,7 @@ textarea.inp{resize:none}
         <thead><tr>
           <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
           <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th>Файл</th><th></th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -473,7 +473,7 @@ function render(){
 
   // Table
   document.getElementById('tbl-body').innerHTML=rows.length===0
-    ?`<tr><td colspan="16">${emptyHtml}</td></tr>`
+    ?`<tr><td colspan="17">${emptyHtml}</td></tr>`
     :rows.map(t=>{
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
@@ -500,6 +500,7 @@ function render(){
         <td>${chip(t.result,RESULT_C)}</td>
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
+        <td style="font-size:11px;color:#6b7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc([t.comment,t.work_status].filter(Boolean).join(' / '))}">${esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—'}</td>
         <td class="tbl-center">${tblFileEl}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
