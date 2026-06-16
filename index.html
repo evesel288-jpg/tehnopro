@@ -254,9 +254,7 @@ function deadlineLabel(dl){
   if(d===0)return`${dl} (сегодня!)`;
   return`${dl} (${d} дн.)`;
 }
-function canDelete(t){
-  return currentUser?.role==='admin'||currentUser?.name===t.employee;
-}
+function platLabel(t){return t.platform==='Другая'&&t.platform_custom?t.platform_custom:t.platform;}
 
 // ── Init ──────────────────────────────────
 window.addEventListener('load',async()=>{
@@ -456,7 +454,10 @@ function render(){
         </div>
         <div class="card-actions">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:'<span style="width:22px;display:inline-block"></span>'}${chip(t.type,TYPE_C)}${prodEl}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
+          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
+        </div>
+      </div>
+      <div class="card-badges">${chip(t.type,TYPE_C)}${prodEl}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
       <div class="card-metrics">
         <div class="metric"><div class="metric-label">НМЦ</div><div class="metric-val">${t.nmc?fmtR(t.nmc)+' ₽':'—'}</div></div>
         <div class="metric"><div class="metric-label">Наша цена</div><div class="metric-val">${t.price?fmtR(t.price)+' ₽':'—'}</div></div>
@@ -503,7 +504,7 @@ function render(){
         <td class="tbl-center">${tblFileEl}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:''}
+          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </td>
       </tr>`;
     }).join('');
@@ -680,13 +681,7 @@ async function deleteFile(id){
 // ── Delete ────────────────────────────────
 function openDelete(id){deleteId=id;document.getElementById('del-overlay').style.display='flex';}
 function closeDelete(){deleteId=null;document.getElementById('del-overlay').style.display='none';}
-async function confirmDelete(){
-  if(deleteId){
-    const t=tenders.find(x=>x.id===deleteId);
-    if(t&&!canDelete(t)){alert('Вы не можете удалить эту запись.');closeDelete();return;}
-    await removeT(deleteId);closeDelete();
-  }
-}
+async function confirmDelete(){if(deleteId){await removeT(deleteId);closeDelete();}}
 
 // ── Admin ─────────────────────────────────
 function openAdmin(){document.getElementById('admin-overlay').style.display='flex';renderAdmin();}
