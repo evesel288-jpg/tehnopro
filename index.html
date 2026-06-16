@@ -21,36 +21,25 @@ a{color:inherit;text-decoration:none}
 .inp:focus{border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.1)}
 select.inp{background:#fff;cursor:pointer}
 textarea.inp{resize:none}
-
-/* Login */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:#f0f4ff}
 .login-card{background:#fff;border-radius:16px;padding:32px;max-width:380px;width:100%;box-shadow:0 4px 32px rgba(30,58,138,.12);text-align:center}
 .login-logo{font-size:40px;margin-bottom:12px}
 .login-card h1{font-size:18px;font-weight:700;color:#111827;margin-bottom:4px}
 .login-card p{color:#6b7280;font-size:12px;margin-bottom:24px}
 .login-error{color:#dc2626;font-size:12px;margin-top:8px;min-height:16px}
-
-/* Header */
 .header{background:#1e3a8a;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
 .header-title{font-weight:700;font-size:14px}
 .header-sub{color:#93c5fd;font-size:11px;margin-top:2px}
 .header-actions{display:flex;gap:6px;flex-shrink:0}
-
-/* Stats */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px 12px 6px}
 .stats-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 12px 8px}
 .stat-card{background:#fff;border-radius:8px;padding:8px 10px;box-shadow:0 1px 3px rgba(0,0,0,.08);text-align:center}
 .stat-label{color:#9ca3af;font-size:10px}
 .stat-val{font-weight:700;font-size:18px;color:#1f2937;margin-top:1px}
 .stat-val-sm{font-size:13px!important}
-
-/* Filters */
 .filters{padding:0 12px 8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.filter-sel{border:1px solid #d1d5db;border-radius:6px;padding:5px 7px;font-size:12px;background:#fff;outline:none;cursor:pointer;font-family:inherit}
 .filter-inp{border:1px solid #d1d5db;border-radius:6px;padding:5px 9px;font-size:12px;flex:1;min-width:120px;outline:none;font-family:inherit}
 .filter-count{margin-left:auto;color:#9ca3af;font-size:11px;white-space:nowrap}
-
-/* Cards */
 .cards{padding:0 12px 40px;display:flex;flex-direction:column;gap:8px}
 .card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:12px 14px}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
@@ -69,8 +58,6 @@ textarea.inp{resize:none}
 .card-comment{color:#6b7280;font-size:11px;margin-top:4px;font-style:italic}
 .reason-badge{border-radius:6px;padding:4px 8px;font-size:11px;margin-top:6px;line-height:1.4}
 .ddot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
-
-/* Table */
 .table-wrap{padding:0 20px 40px;display:none}
 .tbl-scroll{overflow-x:auto;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .tbl{width:100%;border-collapse:collapse;font-size:12px}
@@ -84,8 +71,6 @@ textarea.inp{resize:none}
 .tbl-name-sub{color:#9ca3af;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tbl-right{text-align:right;white-space:nowrap;color:#374151}
 .tbl-center{text-align:center}
-
-/* Overlay / Modal */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal{background:#fff;border-radius:12px;width:100%;max-width:640px;margin:16px auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #f3f4f6}
@@ -99,8 +84,6 @@ textarea.inp{resize:none}
 .calc-box{background:#f8fafc;border-radius:8px;padding:10px 12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .calc-item .calc-label{font-size:10px;color:#9ca3af}
 .calc-item .calc-val{font-weight:700;font-size:15px;color:#374151;margin-top:1px}
-
-/* Admin */
 .admin-modal{max-width:520px}
 .user-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6}
 .user-row:last-child{border-bottom:none}
@@ -108,14 +91,11 @@ textarea.inp{resize:none}
 .user-role{font-size:11px;padding:2px 8px;border-radius:999px;background:#dbeafe;color:#1e40af}
 .user-role.admin{background:#fce7f3;color:#9d174d}
 .add-user-form{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:end;margin-top:16px;padding-top:16px;border-top:1px solid #f3f4f6}
-
-/* Confirm */
 .confirm-box{background:#fff;border-radius:12px;padding:24px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .confirm-box h3{font-weight:600;font-size:15px;margin-bottom:8px}
 .confirm-box p{color:#6b7280;font-size:13px;margin-bottom:20px}
 .confirm-actions{display:flex;gap:8px;justify-content:flex-end}
 .empty{text-align:center;padding:60px 20px;color:#9ca3af;font-size:13px}
-
 @media(min-width:768px){
   .stats-grid{grid-template-columns:repeat(6,1fr)}
   .stats-grid2{display:none}
@@ -177,7 +157,8 @@ textarea.inp{resize:none}
         <thead><tr>
           <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
           <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th><th>Размещено</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
+          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th>
+          <th>Размещено</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -224,9 +205,9 @@ const esc  = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 
 function calcT(t){
   const nmc=toN(t.nmc),price=toN(t.price),cost=toN(t.cost);
-  const margin    = (price!=null&&cost!=null)?price-cost:null;
-  const marginPct = (margin!=null&&price>0)?margin/price*100:null;
-  const discount  = (price!=null&&nmc!=null&&nmc>0)?(1-price/nmc)*100:null;
+  const margin=(price!=null&&cost!=null)?price-cost:null;
+  const marginPct=(margin!=null&&price>0)?margin/price*100:null;
+  const discount=(price!=null&&nmc!=null&&nmc>0)?(1-price/nmc)*100:null;
   return{margin,marginPct,discount};
 }
 function mColor(p){return p==null?'#6b7280':p<5?'#dc2626':p<15?'#d97706':'#15803d';}
@@ -241,8 +222,7 @@ function deadlineDays(dl){
 }
 function deadlineColor(dl){
   const d=deadlineDays(dl);
-  if(d===null)return'#9ca3af';
-  if(d<0)return'#9ca3af';
+  if(d===null||d<0)return'#9ca3af';
   if(d<5)return'#dc2626';
   if(d<=10)return'#d97706';
   return'#15803d';
@@ -250,13 +230,11 @@ function deadlineColor(dl){
 function deadlineLabel(dl){
   const d=deadlineDays(dl);
   if(d===null)return'—';
-  if(d<0)return`${dl} (истёк)`;
-  if(d===0)return`${dl} (сегодня!)`;
-  return`${dl} (${d} дн.)`;
+  if(d<0)return dl+' (истёк)';
+  if(d===0)return dl+' (сегодня!)';
+  return dl+' ('+d+' дн.)';
 }
-function canDelete(t){
-  return currentUser?.role==='admin'||currentUser?.name===t.employee;
-}
+function platLabel(t){return t.platform==='Другая'&&t.platform_custom?t.platform_custom:t.platform;}
 
 // ── Init ──────────────────────────────────
 window.addEventListener('load',async()=>{
@@ -268,7 +246,7 @@ window.addEventListener('load',async()=>{
       await loadUsers();
       const found=users.find(u=>u.name===currentUser.name&&u.password===currentUser.password);
       if(found){await showApp();return;}
-    }catch{}
+    }catch(e){}
     localStorage.removeItem('tp_session');
     currentUser=null;
   }
@@ -329,7 +307,7 @@ async function showApp(){
   render();
 }
 
-// ── Tenders CRUD ──────────────────────────
+// ── CRUD ──────────────────────────────────
 async function loadTenders(){
   const{data,error}=await sb.from('tenders').select('*').order('created_at',{ascending:false});
   if(!error&&data)tenders=data;
@@ -350,10 +328,7 @@ async function removeT(id){
   if(!error)tenders=tenders.filter(x=>x.id!==id);
   render();
 }
-
-// ── Users CRUD ────────────────────────────
 async function addUser(name,password,role){
-  if(!name||!password)return;
   const{data,error}=await sb.from('users').insert([{name,password,role}]).select();
   if(!error&&data){users=[...users,data[0]];renderAdmin();}
 }
@@ -366,10 +341,10 @@ async function removeUser(id){
 // ── Filter & Stats ────────────────────────
 function getFiltered(){
   return tenders.filter(t=>{
-    if(filter.type     &&t.type!==filter.type)        return false;
-    if(filter.status   &&t.status!==filter.status)    return false;
-    if(filter.result   &&t.result!==filter.result)    return false;
-    if(filter.employee &&t.employee!==filter.employee)return false;
+    if(filter.type&&t.type!==filter.type)return false;
+    if(filter.status&&t.status!==filter.status)return false;
+    if(filter.result&&t.result!==filter.result)return false;
+    if(filter.employee&&t.employee!==filter.employee)return false;
     if(filter.q){
       const q=filter.q.toLowerCase();
       if(![t.number,t.name,t.customer,t.employee].some(s=>s&&s.toLowerCase().includes(q)))return false;
@@ -379,15 +354,13 @@ function getFiltered(){
 }
 function getStats(){
   const byS=Object.fromEntries(STATUSES.map(s=>[s,0]));
-  let nmcSum=0,mSum=0,mCnt=0,wins=0;
+  let wins=0,losses=0;
   tenders.forEach(t=>{
     if(t.status in byS)byS[t.status]++;
     if(t.result==='Победа')wins++;
-    if(t.nmc)nmcSum+=Number(t.nmc);
-    const{marginPct}=calcT(t);
-    if(marginPct!=null){mSum+=marginPct;mCnt++;}
+    if(t.result==='Поражение')losses++;
   });
-  return{byS,wins,nmcSum,total:tenders.length,avgM:mCnt?mSum/mCnt:null};
+  return{byS,wins,losses,total:tenders.length};
 }
 
 // ── Render ────────────────────────────────
@@ -399,25 +372,20 @@ function render(){
   document.getElementById('stats-top').innerHTML=[
     {l:'Всего',v:st.total},{l:'Отобрано',v:st.byS['Отобрано']},
     {l:'Рассмотрено',v:st.byS['Рассмотрено']},{l:'В работе',v:st.byS['Принято в работу']},
-    {l:'Победы',v:st.wins},{l:'Проигрыши',v:st.byS?.['Поражение']||tenders.filter(t=>t.result==='Поражение').length},
-  ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
-    <div class="stat-val">${s.v}</div></div>`).join('');
+    {l:'Победы',v:st.wins},{l:'Проигрыши',v:st.losses},
+  ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div><div class="stat-val">${s.v}</div></div>`).join('');
 
   document.getElementById('stats-bot').innerHTML=[
-    {l:'Победы',v:st.wins},
-    {l:'В работе',v:st.byS['Принято в работу']},
-  ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div>
-    <div class="stat-val stat-val-sm">${s.v}</div></div>`).join('');
+    {l:'Победы',v:st.wins},{l:'В работе',v:st.byS['Принято в работу']},
+  ].map(s=>`<div class="stat-card"><div class="stat-label">${s.l}</div><div class="stat-val stat-val-sm">${s.v}</div></div>`).join('');
 
   const ss='border:1px solid #d1d5db;border-radius:6px;padding:5px 7px;font-size:12px;background:#fff;outline:none;cursor:pointer;font-family:inherit';
   let fh=`<input class="filter-inp" value="${esc(filter.q)}" placeholder="🔍 Поиск..." oninput="filter.q=this.value;render()">`;
   [[filter.type,TYPES,'Тип','type'],[filter.status,STATUSES,'Статус','status'],[filter.result,RESULTS,'Итог','result']].forEach(([cur,opts,lbl,key])=>{
-    fh+=`<select style="${ss}" onchange="filter.${key}=this.value;render()">
-      <option value="">Все (${lbl})</option>${opts.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('')}</select>`;
+    fh+=`<select style="${ss}" onchange="filter.${key}=this.value;render()"><option value="">Все (${lbl})</option>${opts.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('')}</select>`;
   });
   if(emps.length>1){
-    fh+=`<select style="${ss}" onchange="filter.employee=this.value;render()">
-      <option value="">Все (Сотрудник)</option>${emps.map(e=>`<option${filter.employee===e?' selected':''}>${esc(e)}</option>`).join('')}</select>`;
+    fh+=`<select style="${ss}" onchange="filter.employee=this.value;render()"><option value="">Все (Сотрудник)</option>${emps.map(e=>`<option${filter.employee===e?' selected':''}>${esc(e)}</option>`).join('')}</select>`;
   }
   if(Object.values(filter).some(Boolean))
     fh+=`<button onclick="filter={q:'',type:'',status:'',result:'',employee:''};render()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:12px">✕</button>`;
@@ -438,8 +406,8 @@ function render(){
     const numEl=t.url
       ?`<a href="${esc(t.url)}" target="_blank" class="card-num" style="color:#2563eb">${esc(t.number||'—')}</a>`
       :`<span class="card-num" style="color:#6b7280">${esc(t.number||'—')}</span>`;
-    const decColor=t.decision==='Участвуем'?'#15803d':t.decision==='Участвуем с оговорками'?'#d97706':t.decision==='Не принято'?'#6b7280':'#dc2626';
-    const decEl=t.decision&&t.decision!=='—'?`<span style="font-size:11px;font-weight:600;color:${decColor}">${esc(t.decision)}</span>`:'';
+    const decClr=t.decision==='Участвуем'?'#15803d':t.decision==='Участвуем с оговорками'?'#d97706':t.decision==='Не принято'?'#6b7280':'#dc2626';
+    const decEl=t.decision&&t.decision!=='—'?`<span style="font-size:11px;font-weight:600;color:${decClr}">${esc(t.decision)}</span>`:'';
     const empEl=t.employee?`<span class="badge" style="background:#f3f4f6;color:#6b7280">👤 ${esc(t.employee)}</span>`:'';
     const prodEl=t.product_type?`<span class="badge" style="background:#f0fdf4;color:#166534">${esc(t.product_type)}</span>`:'';
     const reasonEl=t.decision==='Не участвуем'&&t.reason_no?`<div class="reason-badge" style="background:#fee2e2;color:#991b1b">⚠ Причина: ${esc(t.reason_no)}</div>`:'';
@@ -447,8 +415,8 @@ function render(){
     const wsEl=t.work_status?`<div style="font-size:11px;color:#2563eb;margin-top:4px">🔧 ${esc(t.work_status)}</div>`:'';
     const commentEl=t.comment?`<div class="card-comment">${esc(t.comment)}</div>`:'';
     const fileEl=t.analysis_file_url
-      ?`<a href="${esc(t.analysis_file_url)}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:#eff6ff;color:#2563eb;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:500;text-decoration:none">📎 ${esc(t.analysis_file_name||'Анализ тендера')}</a>`
-      :'';    return`<div class="card">
+      ?`<a href="${esc(t.analysis_file_url)}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:#eff6ff;color:#2563eb;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:500;text-decoration:none">📎 ${esc(t.analysis_file_name||'Анализ тендера')}</a>`:'';
+    return`<div class="card">
       <div class="card-top">
         <div class="card-info">${numEl}
           <div class="card-name">${esc(t.name)||'<span style="color:#d1d5db">Без названия</span>'}</div>
@@ -456,7 +424,7 @@ function render(){
         </div>
         <div class="card-actions">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:''}
+          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </div>
       </div>
       <div class="card-badges">${chip(t.type,TYPE_C)}${prodEl}${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}${decEl}${empEl}</div>
@@ -468,8 +436,7 @@ function render(){
       </div>
       ${t.deadline?`<div class="card-footer"><span class="ddot" style="background:${dc}"></span><span style="color:${dc};font-weight:500">${esc(dl)}</span></div>`:''}
       ${t.procedure?`<div style="font-size:11px;color:#6b7280;margin-top:4px">📋 ${esc(t.procedure)}</div>`:''}
-      ${reasonEl}${caveatEl}${commentEl}${wsEl}
-      ${fileEl}
+      ${reasonEl}${caveatEl}${commentEl}${wsEl}${fileEl}
     </div>`;
   }).join('');
 
@@ -480,10 +447,10 @@ function render(){
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
       const dc=deadlineColor(t.deadline);
-      const pl=platLabel(t);
       const numEl=t.url?`<a href="${esc(t.url)}" target="_blank" style="color:#2563eb">${esc(t.number||'—')}</a>`:esc(t.number||'—');
       const decCls=t.decision==='Участвуем'?'dec-yes':t.decision==='Участвуем с оговорками'?'dec-cav':t.decision==='Не участвуем'?'dec-no':'';
       const tblFileEl=t.analysis_file_url?`<a href="${esc(t.analysis_file_url)}" target="_blank" title="${esc(t.analysis_file_name||'')}" style="color:#2563eb;font-size:13px">📎</a>`:'—';
+      const commentTxt=esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—';
       return`<tr>
         <td class="tbl-mono">${numEl}</td>
         <td class="tbl-name-col">
@@ -503,11 +470,11 @@ function render(){
         <td style="color:#6b7280">${esc(t.employee||'—')}</td>
         <td style="color:#6b7280;white-space:nowrap">${esc(t.posted_date||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
-        <td style="font-size:11px;color:#6b7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc([t.comment,t.work_status].filter(Boolean).join(' / '))}">${esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—'}</td>
+        <td style="font-size:11px;color:#6b7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${commentTxt}">${commentTxt}</td>
         <td class="tbl-center">${tblFileEl}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
-          ${canDelete(t)?`<button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>`:''}
+          <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </td>
       </tr>`;
     }).join('');
@@ -521,9 +488,8 @@ function formVals(){
     url:g('f-url'),type:g('f-type'),product_type:g('f-prodtype'),
     nmc:g('f-nmc'),price:g('f-price'),cost:g('f-cost'),
     status:g('f-stat'),decision:g('f-dec'),result:g('f-res'),
-    reason_no:g('f-reason'),caveat:g('f-caveat'),
-    procedure:g('f-procedure'),
-    employee:g('f-emp'),deadline:g('f-dead'),
+    reason_no:g('f-reason'),caveat:g('f-caveat'),procedure:g('f-procedure'),
+    employee:g('f-emp'),posted_date:g('f-posted'),deadline:g('f-dead'),
     comment:g('f-comm'),work_status:g('f-workstatus')};
 }
 
@@ -548,7 +514,6 @@ function toggleReason(){
   if(rf)rf.style.display=dec==='Не участвуем'?'':'none';
   if(cf)cf.style.display=dec==='Участвуем с оговорками'?'':'none';
 }
-
 function togglePlatform(){
   const p=document.getElementById('f-plat')?.value;
   const box=document.getElementById('platform-custom-field');
@@ -572,20 +537,17 @@ function buildModal(d={},mode='add'){
     <div class="field field-full"><label class="field-label">Вид процедуры</label>
       <select id="f-procedure" ${ih}>
         <option value="">— не выбрано —</option>
-        ${(()=>{
-          const cur=d.procedure||'';
-          const isCustom=cur&&!PROCEDURES.includes(cur);
-          return (isCustom?`<option value="${esc(cur)}" selected>📋 ${esc(cur)}</option>`:'')
-            +PROCEDURES.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('');
-        })()}
-      </select>
-    </div>
+        ${(()=>{const cur=d.procedure||'';const isCustom=cur&&!PROCEDURES.includes(cur);
+          return(isCustom?`<option value="${esc(cur)}" selected>📋 ${esc(cur)}</option>`:'')
+            +PROCEDURES.map(o=>`<option${cur===o?' selected':''}>${esc(o)}</option>`).join('');})()}
+      </select></div>
     <div class="field field-full"><label class="field-label">Наименование</label>
       <input id="f-name" ${ih} value="${v('name')}" placeholder="Поставка, выполнение работ..."></div>
     <div class="field"><label class="field-label">Заказчик</label>
       <input id="f-cust" ${ih} value="${v('customer')}" placeholder="Наименование заказчика"></div>
     <div class="field"><label class="field-label">Тип продукции</label>
-      <select id="f-prodtype" ${ih}><option value="">— не выбрано —</option>${PROD_TYPES.map(o=>`<option${(d.product_type||'')===o?' selected':''}>${esc(o)}</option>`).join('')}</select></div>
+      <select id="f-prodtype" ${ih}><option value="">— не выбрано —</option>
+        ${PROD_TYPES.map(o=>`<option${(d.product_type||'')===o?' selected':''}>${esc(o)}</option>`).join('')}</select></div>
     <div class="field"><label class="field-label">Торговая площадка</label>
       <select id="f-plat" ${ih} onchange="togglePlatform()">${optsD(PLATFORMS,d.platform||PLATFORMS[0])}</select></div>
     <div class="field" id="platform-custom-field" style="display:${d.platform==='Другая'?'':'none'}">
@@ -599,7 +561,7 @@ function buildModal(d={},mode='add'){
       <input id="f-price" ${ih} type="number" min="0" value="${v('price')}" oninput="updateCalc()"></div>
     <div class="field"><label class="field-label">Себестоимость (руб.)</label>
       <input id="f-cost" ${ih} type="number" min="0" value="${v('cost')}" oninput="updateCalc()"></div>
-    <div id="calc-box" class="calc-box field-full"><div style="color:#9ca3af;font-size:12px">Заполните цены для расчёта</div></div>
+    <div id="calc-box" class="calc-box field-full" style="display:${(d.nmc||d.price||d.cost)?'flex':'none'}"></div>
     <div class="field"><label class="field-label">Статус</label>
       <select id="f-stat" ${ih}>${optsD(STATUSES,d.status||STATUSES[0])}</select></div>
     <div class="field"><label class="field-label">Решение</label>
@@ -628,8 +590,7 @@ function buildModal(d={},mode='add'){
         ?`<div style="margin-bottom:6px;font-size:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
             <span>📎 <a href="${esc(d.analysis_file_url)}" target="_blank" style="color:#2563eb">${esc(d.analysis_file_name||'Открыть файл')}</a></span>
             <button onclick="deleteFile(${d.id||'null'})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer;font-weight:500">✕ Удалить файл</button>
-           </div>`
-        :''}
+           </div>`:''}
       <input id="f-file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg" style="font-size:12px;width:100%">
     </div>
   </div>
@@ -670,7 +631,6 @@ async function saveModal(mode,id){
   if(mode==='add')await insertT(d); else await updateT(id,d);
 }
 
-// ── File delete ───────────────────────────
 async function deleteFile(id){
   if(!confirm('Удалить прикреплённый файл?'))return;
   const t=tenders.find(x=>x.id===id);
@@ -683,18 +643,10 @@ async function deleteFile(id){
   openEdit(id);
 }
 
-// ── Delete ────────────────────────────────
 function openDelete(id){deleteId=id;document.getElementById('del-overlay').style.display='flex';}
 function closeDelete(){deleteId=null;document.getElementById('del-overlay').style.display='none';}
-async function confirmDelete(){
-  if(deleteId){
-    const t=tenders.find(x=>x.id===deleteId);
-    if(t&&!canDelete(t)){alert('Вы не можете удалить эту запись.');closeDelete();return;}
-    await removeT(deleteId);closeDelete();
-  }
-}
+async function confirmDelete(){if(deleteId){await removeT(deleteId);closeDelete();}}
 
-// ── Admin ─────────────────────────────────
 function openAdmin(){document.getElementById('admin-overlay').style.display='flex';renderAdmin();}
 function closeAdmin(){document.getElementById('admin-overlay').style.display='none';}
 function renderAdmin(){
@@ -731,25 +683,26 @@ async function doAddUser(){
   await addUser(name,pass,role);
 }
 
-// ── Export ────────────────────────────────
 function exportXlsx(){
   const rows=getFiltered().map(t=>{
     const{marginPct,discount}=calcT(t);
     return{
       'Номер закупки':t.number,'Наименование':t.name,'Заказчик':t.customer,
-      'Площадка':platLabel(t),'Тип закупки':t.type,'Тип продукции':t.product_type||'',
+      'Площадка':platLabel(t),'Тип закупки':t.type,'Вид процедуры':t.procedure||'',
+      'Тип продукции':t.product_type||'',
       'НМЦ (руб.)':toN(t.nmc)??'','Наша цена (руб.)':toN(t.price)??'','Себестоимость (руб.)':toN(t.cost)??'',
       'Снижение от НМЦ (%)':discount!=null?+discount.toFixed(2):'',
       'Маржинальность (%)':marginPct!=null?+marginPct.toFixed(2):'',
       'Статус':t.status,'Решение':t.decision,
       'Причина отказа':t.reason_no||'','Оговорки':t.caveat||'',
-      'Итог':t.result,'Сотрудник':t.employee,'Дата размещения':t.posted_date||'','Срок подачи':t.deadline,
-      'Статус работы':t.work_status||'','Комментарий':t.comment,
-      'Файл анализа':t.analysis_file_name||'','Ссылка':t.url,
+      'Итог':t.result,'Сотрудник':t.employee,
+      'Дата размещения':t.posted_date||'','Срок подачи':t.deadline||'',
+      'Статус работы':t.work_status||'','Комментарий':t.comment||'',
+      'Файл анализа':t.analysis_file_name||'','Ссылка':t.url||'',
     };
   });
   const ws=XLSX.utils.json_to_sheet(rows);
-  ws['!cols']=[20,35,25,18,10,16,16,16,16,14,14,18,12,20,20,12,20,14,25,30,25,35].map(w=>({wch:w}));
+  ws['!cols']=[20,35,25,18,10,20,16,16,16,16,14,14,18,12,20,20,12,20,14,14,25,30,25,35].map(w=>({wch:w}));
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Тендеры');
   XLSX.writeFile(wb,`ТехноПро_тендеры_${new Date().toISOString().slice(0,10)}.xlsx`);
