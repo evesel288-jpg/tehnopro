@@ -58,15 +58,20 @@ textarea.inp{resize:none}
 .card-comment{color:#6b7280;font-size:11px;margin-top:4px;font-style:italic}
 .reason-badge{border-radius:6px;padding:4px 8px;font-size:11px;margin-top:6px;line-height:1.4}
 .ddot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
-.table-wrap{padding:0 20px 40px;display:none}
-.tbl-scroll{overflow-x:auto;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.table-wrap{padding:0 20px 16px;display:none}
+.tbl-scroll{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 215px);background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .tbl{width:100%;border-collapse:collapse;font-size:12px}
-.tbl th{padding:10px 12px;text-align:left;font-weight:600;color:#6b7280;white-space:nowrap;font-size:11px;background:#f9fafb;border-bottom:2px solid #f3f4f6}
-.tbl td{padding:9px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.tbl thead th{position:sticky;top:0;z-index:1;padding:10px 12px;text-align:left;font-weight:600;color:#6b7280;white-space:nowrap;font-size:11px;background:#f9fafb;border-bottom:2px solid #f3f4f6}
+.tbl td{padding:8px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:#f5f8ff}
+.tbl tr:hover .ts1,.tbl tr:hover .ts2{background:#f5f8ff}
+.ts1{position:sticky;left:0;z-index:2;background:#fff}
+.ts2{position:sticky;left:110px;z-index:2;background:#fff;box-shadow:3px 0 6px rgba(0,0,0,.06)}
+.tbl thead .ts1{z-index:4;background:#f9fafb}
+.tbl thead .ts2{z-index:4;background:#f9fafb}
 .tbl-mono{font-family:monospace;font-size:11px}
-.tbl-name-col{max-width:200px}
+.tbl-name-col{max-width:180px}
 .tbl-name-main{font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tbl-name-sub{color:#9ca3af;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tbl-right{text-align:right;white-space:nowrap;color:#374151}
@@ -155,10 +160,13 @@ textarea.inp{resize:none}
     <div class="tbl-scroll">
       <table class="tbl">
         <thead><tr>
-          <th>Номер</th><th>Наименование / Заказчик</th><th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
-          <th>НМЦ</th><th>Наша цена</th><th>Снижение</th><th>Маржа</th>
-          <th>Статус</th><th>Решение</th><th>Итог</th><th>Сотрудник</th>
-          <th>Размещено</th><th>Срок подачи</th><th>Комментарий</th><th>Файл</th><th></th>
+          <th class="ts1">Номер</th>
+          <th class="ts2">Наименование / Заказчик</th>
+          <th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
+          <th>НМЦ / Наша цена</th><th>Снижение / Маржа</th>
+          <th>Статус · Решение · Итог</th>
+          <th>Сотрудник</th><th>Размещено</th><th>Срок подачи</th>
+          <th>Комментарий</th><th>Файл</th><th></th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -442,7 +450,7 @@ function render(){
 
   // Table
   document.getElementById('tbl-body').innerHTML=rows.length===0
-    ?`<tr><td colspan="18">${emptyHtml}</td></tr>`
+    ?`<tr><td colspan="14">${emptyHtml}</td></tr>`
     :rows.map(t=>{
       const{marginPct,discount}=calcT(t);
       const mc=mColor(marginPct);
@@ -452,25 +460,30 @@ function render(){
       const tblFileEl=t.analysis_file_url?`<a href="${esc(t.analysis_file_url)}" target="_blank" title="${esc(t.analysis_file_name||'')}" style="color:#2563eb;font-size:13px">📎</a>`:'—';
       const commentTxt=esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—';
       return`<tr>
-        <td class="tbl-mono">${numEl}</td>
-        <td class="tbl-name-col">
+        <td class="ts1 tbl-mono" style="min-width:100px">${numEl}</td>
+        <td class="ts2 tbl-name-col" style="min-width:180px">
           <div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
           <div class="tbl-name-sub">${esc([t.customer,platLabel(t)].filter(Boolean).join(' · '))}</div>
         </td>
         <td>${chip(t.type,TYPE_C)}</td>
-        <td style="font-size:11px;color:#6b7280;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.procedure||'')}">${esc(t.procedure||'—')}</td>
+        <td style="font-size:11px;color:#6b7280;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.procedure||'')}">${esc(t.procedure||'—')}</td>
         <td style="font-size:11px;color:#374151;white-space:nowrap">${esc(t.product_type||'—')}</td>
-        <td class="tbl-right">${fmtR(t.nmc)}</td>
-        <td class="tbl-right">${fmtR(t.price)}</td>
-        <td class="tbl-center">${fmtP(discount)}</td>
-        <td class="tbl-center fw6" style="color:${mc}">${fmtP(marginPct)}</td>
-        <td>${chip(t.status,STATUS_C)}</td>
-        <td class="${decCls}" title="${esc(t.reason_no||t.caveat||'')}">${esc(t.decision||'—')}</td>
-        <td>${chip(t.result,RESULT_C)}</td>
-        <td style="color:#6b7280">${esc(t.employee||'—')}</td>
+        <td style="white-space:nowrap">
+          <div style="font-size:10px;color:#9ca3af">НМЦ: ${fmtR(t.nmc)}</div>
+          <div style="font-weight:600;color:#374151">${fmtR(t.price)}</div>
+        </td>
+        <td class="tbl-center" style="white-space:nowrap">
+          <div style="font-size:11px;color:#6b7280">↓ ${fmtP(discount)}</div>
+          <div style="font-weight:600;color:${mc}">М ${fmtP(marginPct)}</div>
+        </td>
+        <td style="min-width:160px">
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:3px">${chip(t.status,STATUS_C)}${chip(t.result,RESULT_C)}</div>
+          <div class="${decCls}" style="font-size:11px" title="${esc(t.reason_no||t.caveat||'')}">${esc(t.decision||'—')}</div>
+        </td>
+        <td style="color:#6b7280;white-space:nowrap">${esc(t.employee||'—')}</td>
         <td style="color:#6b7280;white-space:nowrap">${esc(t.posted_date||'—')}</td>
         <td style="color:${dc};white-space:nowrap;font-weight:500">${t.deadline?`<span class="ddot" style="background:${dc};margin-right:4px"></span>${esc(t.deadline)}`:'—'}</td>
-        <td style="font-size:11px;color:#6b7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${commentTxt}">${commentTxt}</td>
+        <td style="font-size:11px;color:#6b7280;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${commentTxt}">${commentTxt}</td>
         <td class="tbl-center">${tblFileEl}</td>
         <td style="white-space:nowrap">
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
