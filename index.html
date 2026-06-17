@@ -160,8 +160,8 @@ textarea.inp{resize:none}
     <div class="tbl-scroll">
       <table class="tbl">
         <thead><tr>
-          <th class="ts1">Номер</th>
-          <th class="ts2">Наименование / Заказчик</th>
+          <th class="ts1" style="width:36px"></th>
+          <th class="ts2">Номер</th>
           <th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
           <th>НМЦ / Наша цена</th><th>Снижение / Маржа</th>
           <th>Статус · Решение · Итог</th>
@@ -315,6 +315,12 @@ async function showApp(){
   render();
 }
 
+async function toggleFav(id){
+  const t=tenders.find(x=>x.id===id);
+  if(!t)return;
+  await updateT(id,{is_favorite:!t.is_favorite});
+}
+
 // ── CRUD ──────────────────────────────────
 async function loadTenders(){
   const{data,error}=await sb.from('tenders').select('*').order('created_at',{ascending:false});
@@ -358,7 +364,7 @@ function getFiltered(){
       if(![t.number,t.name,t.customer,t.employee].some(s=>s&&s.toLowerCase().includes(q)))return false;
     }
     return true;
-  });
+  }).sort((a,b)=>(b.is_favorite?1:0)-(a.is_favorite?1:0));
 }
 function getStats(){
   const byS=Object.fromEntries(STATUSES.map(s=>[s,0]));
@@ -424,13 +430,14 @@ function render(){
     const commentEl=t.comment?`<div class="card-comment">${esc(t.comment)}</div>`:'';
     const fileEl=t.analysis_file_url
       ?`<a href="${esc(t.analysis_file_url)}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:#eff6ff;color:#2563eb;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:500;text-decoration:none">📎 ${esc(t.analysis_file_name||'Анализ тендера')}</a>`:'';
-    return`<div class="card">
+    return`<div class="card" style="${t.is_favorite?'border-left:3px solid #f59e0b;':''}">
       <div class="card-top">
         <div class="card-info">${numEl}
           <div class="card-name">${esc(t.name)||'<span style="color:#d1d5db">Без названия</span>'}</div>
           <div class="card-sub">${esc([t.customer,pl].filter(Boolean).join(' · '))}</div>
         </div>
         <div class="card-actions">
+          ${favBtn}
           <button class="icon-btn" style="color:#3b82f6" onclick="openEdit(${t.id})">✎</button>
           <button class="icon-btn" style="color:#f87171" onclick="openDelete(${t.id})">✕</button>
         </div>
@@ -452,15 +459,13 @@ function render(){
   document.getElementById('tbl-body').innerHTML=rows.length===0
     ?`<tr><td colspan="14">${emptyHtml}</td></tr>`
     :rows.map(t=>{
-      const{marginPct,discount}=calcT(t);
-      const mc=mColor(marginPct);
-      const dc=deadlineColor(t.deadline);
-      const numEl=t.url?`<a href="${esc(t.url)}" target="_blank" style="color:#2563eb">${esc(t.number||'—')}</a>`:esc(t.number||'—');
+    const numEl=t.url?`<a href="${esc(t.url)}" target="_blank" style="color:#2563eb">${esc(t.number||'—')}</a>`:esc(t.number||'—');
       const decCls=t.decision==='Участвуем'?'dec-yes':t.decision==='Участвуем с оговорками'?'dec-cav':t.decision==='Не участвуем'?'dec-no':'';
       const tblFileEl=t.analysis_file_url?`<a href="${esc(t.analysis_file_url)}" target="_blank" title="${esc(t.analysis_file_name||'')}" style="color:#2563eb;font-size:13px">📎</a>`:'—';
       const commentTxt=esc([t.comment,t.work_status].filter(Boolean).join(' / '))||'—';
-      return`<tr>
-        <td class="ts1 tbl-mono" style="min-width:100px">${numEl}</td>
+      return`<tr style="${t.is_favorite?'background:#fffbeb':''}"">
+        <td class="ts1 tbl-mono" style="min-width:110px">
+          <button onclick="toggleFav(${t.id})" style="background:none;border:none;cursor:pointer;font-size:15px;padding:0 4px 0 0;line-height:1;vertical-align:middle" title="Избранное">${t.is_favorite?'⭐':'☆'}</button>${numEl}</td>
         <td class="ts2 tbl-name-col" style="min-width:180px">
           <div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
           <div class="tbl-name-sub">${esc([t.customer,platLabel(t)].filter(Boolean).join(' · '))}</div>
