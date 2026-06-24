@@ -241,6 +241,11 @@ function deadlineLabel(dl){
   if(d===0)return dl+' (сегодня!)';
   return dl+' ('+d+' дн.)';
 }
+function isExpired(dl){
+  const d = deadlineDays(dl);
+  return d !== null && d < 0;
+}
+
 function platLabel(t){return t.platform==='Другая'&&t.platform_custom ? t.platform_custom : t.platform;}
 
 // ── Init ──────────────────────────────────
@@ -358,7 +363,13 @@ function getFiltered(){
       if(![t.number,t.name,t.customer,t.employee].some(s=>s&&s.toLowerCase().includes(q)))return false;
     }
     return true;
-  }).sort((a,b)=>(b.is_favorite?1:0)-(a.is_favorite?1:0));
+  }).sort((a,b)=>{
+    const af=a.is_favorite?1:0, bf=b.is_favorite?1:0;
+    if(af!==bf) return bf-af;
+    const ae=isExpired(a.deadline)?1:0, be=isExpired(b.deadline)?1:0;
+    if(ae!==be) return ae-be;
+    return 0;
+  });
 }
 function getStats(){
   const byS = Object.fromEntries(STATUSES.map(s=>[s,0]));
@@ -424,7 +435,7 @@ function render(){
     const commentEl= t.comment ? `<div class="card-comment">${esc(t.comment)}</div>` : '';
     const fileEl  = t.analysis_file_url
       ? `<a href="${esc(t.analysis_file_url)}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:#eff6ff;color:#2563eb;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:500;text-decoration:none">📎 ${esc(t.analysis_file_name||'Анализ тендера')}</a>` : '';
-    const favStyle = t.is_favorite ? 'border-left:3px solid #f59e0b;' : '';
+    const favStyle = (t.is_favorite ? 'border-left:3px solid #f59e0b;' : '') + (isExpired(t.deadline) ? 'opacity:0.55;' : '');
     return `<div class="card" style="${favStyle}">
       <div class="card-top">
         <div class="card-info">${numEl}
@@ -463,9 +474,10 @@ function render(){
         const commentTxt = esc([t.comment,t.work_status].filter(Boolean).join(' / ')) || '—';
         const favBtn = `<button onclick="toggleFav(${t.id})" style="background:none;border:none;cursor:pointer;font-size:15px;padding:0;line-height:1;vertical-align:middle" title="Избранное">${t.is_favorite?'⭐':'☆'}</button>`;
         const rowCls = t.is_favorite ? 'fav-row' : '';
-        return `<tr class="${rowCls}">
-          <td class="ts1 tbl-mono" style="min-width:110px">${favBtn} ${numEl}</td>
-          <td class="ts2 tbl-name-col" style="min-width:180px">
+        const expiredStyle = isExpired(t.deadline) ? 'opacity:0.55;' : '';
+        return `<tr class="${rowCls}" style="${expiredStyle}">
+          <td class="ts1 tbl-mono" style="min-width:110px;${expiredStyle}">${favBtn} ${numEl}</td>
+          <td class="ts2 tbl-name-col" style="min-width:180px;${expiredStyle}">
             <div class="tbl-name-main" title="${esc(t.name)}">${esc(t.name)||'—'}</div>
             <div class="tbl-name-sub">${esc([t.customer,platLabel(t)].filter(Boolean).join(' · '))}</div>
           </td>
