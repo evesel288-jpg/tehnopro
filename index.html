@@ -74,8 +74,8 @@ textarea.inp{resize:none}
 .tbl thead .ts1{z-index:4;background:#f9fafb}
 .tbl thead .ts2{z-index:4;background:#f9fafb}
 .tbl-mono{font-family:monospace;font-size:11px}
-.tbl-name-col{max-width:180px}
-.tbl-name-main{font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbl-name-col{max-width:320px}
+.tbl-name-main{font-weight:500;color:#111827;white-space:normal;word-break:break-word;line-height:1.35}
 .tbl-name-sub{color:#9ca3af;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tbl-right{text-align:right;white-space:nowrap;color:#374151}
 .tbl-center{text-align:center}
@@ -162,7 +162,7 @@ textarea.inp{resize:none}
           <th class="ts1">★ Номер</th>
           <th class="ts2">Наименование / Заказчик</th>
           <th>Тип</th><th>Вид процедуры</th><th>Продукция</th>
-          <th>НМЦ / Наша цена</th><th>Снижение / Маржа</th>
+          <th>НМЦ / Наша цена</th>
           <th>Статус · Решение · Итог</th>
           <th>Сотрудник</th><th>Размещено</th><th>Срок подачи</th>
           <th>Комментарий</th><th>Файл</th><th></th>
@@ -223,9 +223,12 @@ function chip(val,map){
   return `<span class="badge" style="background:${bg};color:${fg}">${esc(val)}</span>`;
 }
 function deadlineDays(dl){
-  if(!dl)return null;
-  const today=new Date(); today.setHours(0,0,0,0);
-  return Math.ceil((new Date(dl)-today)/(864e5));
+  const iso = toISO(dl);
+  if(!iso) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(iso + 'T00:00:00');
+  if(isNaN(d.getTime())) return null;
+  return Math.ceil((d-today)/(864e5));
 }
 function deadlineColor(dl){
   const d=deadlineDays(dl);
@@ -236,10 +239,11 @@ function deadlineColor(dl){
 }
 function deadlineLabel(dl){
   const d=deadlineDays(dl);
+  const disp=fmtDateRu(dl);
   if(d===null)return '—';
-  if(d<0)return dl+' (истёк)';
-  if(d===0)return dl+' (сегодня!)';
-  return dl+' ('+d+' дн.)';
+  if(d<0)return disp+' (истёк)';
+  if(d===0)return disp+' (сегодня!)';
+  return disp+' ('+d+' дн.)';
 }
 function isExpired(dl){
   const d = deadlineDays(dl);
@@ -247,6 +251,20 @@ function isExpired(dl){
 }
 
 function platLabel(t){return t.platform==='Другая'&&t.platform_custom ? t.platform_custom : t.platform;}
+
+// Конвертация дат: агент пишет DD.MM.YYYY, HTML <input type="date"> и JS Date требуют YYYY-MM-DD
+function toISO(s){
+  if(!s) return '';
+  const m = String(s).match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  if(m) return `${m[3]}-${m[2]}-${m[1]}`;
+  return s; // уже ISO или пусто
+}
+function fmtDateRu(s){
+  const iso = toISO(s);
+  const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return `${m[3]}.${m[2]}.${m[1]}`;
+  return s || '—';
+}
 
 // ── Init ──────────────────────────────────
 window.addEventListener('load', async()=>{
@@ -603,9 +621,9 @@ function buildModal(d={},mode='add'){
     <div class="field"><label class="field-label">Сотрудник</label>
       <input id="f-emp" ${ih} value="${v('employee',currentUser?.name||'')}" placeholder="Фамилия Имя"></div>
     <div class="field"><label class="field-label">Дата размещения</label>
-      <input id="f-posted" ${ih} type="date" value="${v('posted_date')}"></div>
+      <input id="f-posted" ${ih} type="date" value="${esc(toISO(d.posted_date))}"></div>
     <div class="field"><label class="field-label">Срок подачи</label>
-      <input id="f-dead" ${ih} type="date" value="${v('deadline')}"></div>
+      <input id="f-dead" ${ih} type="date" value="${esc(toISO(d.deadline))}"></div>
     <div class="field field-full"><label class="field-label">Комментарий</label>
       <textarea id="f-comm" class="inp" style="height:56px">${v('comment')}</textarea></div>
     <div class="field field-full"><label class="field-label">Статус работы <span style="color:#9ca3af;font-weight:400">(что сделано)</span></label>
