@@ -481,7 +481,7 @@ function render(){
 
   // ── Table ──────────────────────────────
   document.getElementById('tbl-body').innerHTML = rows.length===0
-    ? `<tr><td colspan="14">${emptyHtml}</td></tr>`
+    ? `<tr><td colspan="13">${emptyHtml}</td></tr>`
     : rows.map(t=>{
         const {marginPct,discount} = calcT(t);
         const mc  = mColor(marginPct);
@@ -505,8 +505,6 @@ function render(){
           <td style="white-space:nowrap">
             <div style="font-size:10px;color:#9ca3af">НМЦ: ${fmtR(t.nmc)}</div>
             <div style="font-weight:600;color:#374151">${fmtR(t.price)}</div>
-          </td>
-          <td class="tbl-center" style="white-space:nowrap">
             <div style="font-size:11px;color:#6b7280">↓ ${fmtP(discount)}</div>
             <div style="font-weight:600;color:${mc}">М ${fmtP(marginPct)}</div>
           </td>
