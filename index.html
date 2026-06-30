@@ -372,6 +372,7 @@ async function removeUser(id){
 // ── Filter & Stats ────────────────────────
 function getFiltered(){
   return tenders.filter(t=>{
+    if(isExpired(t.deadline)) return false;
     if(filter.type     && t.type!==filter.type)        return false;
     if(filter.status   && t.status!==filter.status)    return false;
     if(filter.result   && t.result!==filter.result)    return false;
